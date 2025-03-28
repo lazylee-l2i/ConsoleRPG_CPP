@@ -3,6 +3,8 @@
 #include <utility>
 using namespace std;
 
+class Actor;
+
 class Item
 {
 private:
@@ -10,5 +12,5 @@ private:
 	char icon;
 	int iEffectValue;
 public:
-
+	void TakeEffect(Actor& actor);
 };

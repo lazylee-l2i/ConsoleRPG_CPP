@@ -4,21 +4,7 @@
 #include <utility>
 using namespace std;
 
-struct Pos {
-	int x = 0;
-	int y = 0;
-	Pos operator+=(Pos& object);
-	Pos operator-=(Pos& object);
 
-	bool operator==(Pos& object) const;
-	bool operator!=(Pos& object) const;
-
-	bool operator<(Pos& object) const;
-	bool operator>(Pos& object) const;
-
-	bool operator&&(Pos& object) const;
-	bool operator||(Pos& object) const;
-};
 
 class Actor
 {
