@@ -1,16 +1,15 @@
 #pragma once
 #include <string>
-#include <utility>
-using namespace std;
 
-class Actor;
+#include "Type.h"
+using namespace std;
 
 class Item
 {
-private:
-	string sName;
-	char icon;
+	string name;
 	int iEffectValue;
+	int iStackSize;
+	int iStackCount;
 public:
-	void TakeEffect(Actor& actor);
+	Item(int n) {};
 };

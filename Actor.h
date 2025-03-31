@@ -1,49 +1,28 @@
 #pragma once
-//#include <iostream>
 #include <string>
-#include <utility>
+
+#include "Type.h"
 using namespace std;
-
-
 
 class Actor
 {
-protected:
-	string sName;
-	int iHP;
-	char cIcon;
-	Pos pActorPos;
-	
+	string name;
+	Pos pos;
+	int hp;
 public:
-	Actor(string name);
-	Actor(string name, int hp, Pos pos);
-	virtual ~Actor();
-
-	virtual void move() = 0;
-	virtual void attack() = 0;
-};
-
-class Item;
-
-class Player : public Actor
-{
-public:
-	void GetItem(Item item);
-	virtual void move() override;
-	virtual void attack() override;
-};
-
-class Monster : public Actor
-{
-public:
-	virtual void move() override;
-	virtual void attack() override;
-};
-
-class NPC : public Actor
-{
-public:
-	void TellToPlayer();
-	virtual void move() override {};
-	virtual void attack() override;
+	Actor(string Name, Pos pos, int hp)
+	{
+		this->name = Name;
+		this->pos = pos;
+		this->hp = hp;
+	}
+	Actor()
+	{
+		name = "";
+		pos = Pos();
+		hp = 0;
+	}
+	Pos GetPos() { return this->pos; }
+	void SetPos(Pos pos) { this->pos = pos; }
+	string GetName() { return this->name; }
 };
