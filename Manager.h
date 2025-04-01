@@ -74,3 +74,5 @@ public:
 	void NPCUpdate(Pos mapSize);
 	void MonsterUpdate(Pos mapSize);
 };
+
+class
