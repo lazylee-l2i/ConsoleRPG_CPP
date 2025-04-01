@@ -1,6 +1,5 @@
 #pragma once
 
-
 class GameTimer
 {
 private:
@@ -10,4 +9,6 @@ private:
 public:
 	void LoopStart();
 	void SetFrameTick(int Hz);
+	int GetFrameCount();
+	double GetFrameTickTime();
 };

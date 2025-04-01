@@ -8,5 +8,16 @@ void GameTimer::LoopStart()
 
 void GameTimer::SetFrameTick(int Hz)
 {
-	this->dFrameTick = 1000 / Hz;
+	this->dFrameTick = static_cast<double>(1000) / Hz;
+}
+
+int GameTimer::GetFrameCount()
+{
+	int count = (static_cast<double>(clock()) - this->dStartLoop) / this->dFrameTick;
+	return count;
+}
+
+double GameTimer::GetFrameTickTime()
+{
+	return this->dFrameTick;
 }

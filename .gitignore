@@ -38,5 +38,3 @@
 # debug
 x64/
 .vs/
-*.vcxproj.*
-*.vcxproj
