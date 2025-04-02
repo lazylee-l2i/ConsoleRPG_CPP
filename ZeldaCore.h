@@ -17,5 +17,3 @@
 #include "Manager.h"
 
 int iRandNum(int N);
-
-bool bBoundaryCheck(Pos& pos, int sizeX, int sizeY);

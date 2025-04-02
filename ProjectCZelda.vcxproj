@@ -19,7 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Actor.cpp" />
     <ClCompile Include="GameTimer.cpp" />
+    <ClCompile Include="Item.cpp" />
     <ClCompile Include="Manager.cpp" />
     <ClCompile Include="Type.cpp" />
     <ClCompile Include="ZeldaCore.cpp" />

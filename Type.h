@@ -16,11 +16,14 @@ Pos operator-(const Pos& left, const Pos& right);
 
 bool operator==(const Pos& left, const Pos& right);
 
+int GetLengthAboutTwoPoint(const Pos& left, const Pos& right);
+
 enum class DIRECTION
 {
 	UP,
 	DOWN,
 	LEFT,
 	RIGHT,
-	QUIT
+	QUIT,
+	ATTACKCALL
 };
