@@ -1,5 +1,6 @@
 #pragma once
 #include "ZeldaCore.h"
+#include "Item.h"
 #include <Windows.h>
 
 
@@ -24,7 +25,7 @@ private:
 	~GameManager() { }
 	map<string, shared_ptr<Actor>> actors;
 	vector<shared_ptr<Item>> dropedItems;
-	shared_ptr<Item> questBag = make_shared<Item>(new Item(2, Pos(0,0)));
+	shared_ptr<Item> questBag = make_shared<Item>(2, Pos(0,0));
 	bool* bGameState = nullptr;
 
 public:

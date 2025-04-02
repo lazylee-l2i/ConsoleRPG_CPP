@@ -1,5 +1,6 @@
 #include "ZeldaCore.h"
 #include "Manager.h"
+#include "Item.h"
 
 void GameManager::InsertActorInMap(Actor* actor)
 {

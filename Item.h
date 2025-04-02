@@ -1,7 +1,6 @@
 #pragma once
 #include <string>
 #include "Type.h"
-
 using namespace std;
 
 class Item
@@ -14,6 +13,7 @@ class Item
 public:
 	Item() {}
 	Item(int i, Pos deadPoint);
+	~Item() {}
 	Pos GetItemPos() { return this->itemPos; }
 	string GetItemName() { return this->name; }
 	int GetItemEffectValue() { return this->iEffectValue; }

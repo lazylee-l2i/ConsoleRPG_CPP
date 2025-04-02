@@ -12,8 +12,8 @@
 
 #include "Actor.h"
 #include "Type.h"
-#include "Item.h"
 #include "GameTimer.h"
 #include "Manager.h"
+#include "Item.h"
 
 int iRandNum(int N);
