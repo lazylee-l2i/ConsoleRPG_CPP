@@ -16,7 +16,7 @@ Pos Actor::GetDirectionByPos()
 	return Pos();
 }
 
-void Actor::ActorKnockBack(Pos pos)
+Pos Actor::ActorKnockBack(Pos pos)
 {
 	if (pos == Pos(0, 0))
 	{
@@ -42,5 +42,5 @@ void Actor::ActorKnockBack(Pos pos)
 	{
 		this->pos = this->pos + pos;
 	}
-	
+	return this->pos;
 }

@@ -21,10 +21,10 @@ Pos operator-(const Pos& left, const Pos& right)
 
 bool operator==(const Pos& left, const Pos& right)
 {
-	bool bX = left.x == right.x;
-	bool bY = left.y == right.y;
+	bool bX = (left.x == right.x);
+	bool bY = (left.y == right.y);
 
-	return bX && bY;
+	return (bX && bY);
 }
 
 int GetLengthAboutTwoPoint(const Pos& left, const Pos& right)
@@ -44,9 +44,9 @@ Pos::Pos(int x, int y)
 	this->y = y;
 }
 
-void Pos::operator=(const Pos& other)
-{
-	this->x = other.x;
-	this->y = other.y;
-}
+//void Pos::operator=(const Pos& other)
+//{
+//	this->x = other.x;
+//	this->y = other.y;
+//}
 

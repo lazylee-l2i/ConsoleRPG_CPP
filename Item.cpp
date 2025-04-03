@@ -12,7 +12,7 @@ Item::Item(int i, Pos deadPoint)
 	}
 	else if (i == 2)
 	{
-		this->name = "Quest";
+		this->name = "quest";
 		this->iEffectValue = 1;
 		this->iStackSize = 10;
 		this->iStackCount = 0;

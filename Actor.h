@@ -6,8 +6,8 @@ using namespace std;
 
 class Actor
 {
-	string name;
-	int hp;
+	string name = "";
+	int hp = 0;
 	int attack = 0;
 	Pos pos;
 	DIRECTION moveDirection = DIRECTION::QUIT;
@@ -58,5 +58,5 @@ public:
 	void SetAttack(int attack) { this->attack = attack; }
 	
 	// Method
-	void ActorKnockBack(Pos pos = Pos(0, 0));
+	Pos ActorKnockBack(Pos pos = Pos(0, 0));
 };

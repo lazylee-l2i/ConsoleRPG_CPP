@@ -6,10 +6,6 @@ void Init()
 {
 	GameManager::GetInstance().InsertActorInMap(new Actor("User", Pos(5, 3), (int)5));
 
-	//GameManager::GetInstance().AutoGenerateMonster(3);
-	//GameManager::GetInstance().InsertActorInMap(new Actor("M1", Pos(iRandNum(10), iRandNum(4)), 5));
-	//GameManager::GetInstance().InsertActorInMap(new Actor("M2", Pos(iRandNum(10), iRandNum(4)), 5));
-	//GameManager::GetInstance().InsertActorInMap(new Actor("M3", Pos(iRandNum(10), iRandNum(4)), 5));
 }
 
 void Update(UpdateManager* manager)
@@ -28,10 +24,11 @@ void Play()
 	GameTimer* timer = new GameTimer();
 	timer->SetFrameTick(10);
 	
+	MapManager::GetInstance().ShowMap();
+
 	UpdateManager* uManage = new UpdateManager();
 	thread userInput(&UpdateManager::PlayerUpdateLoop, uManage, flag, timer->GetFrameTickTime());
-
-	MapManager::GetInstance().ShowMap();
+	
 	timer->LoopStart();
 	while (*flag)
 	{	
@@ -41,9 +38,10 @@ void Play()
 		{
 			timer->LoopStart();
 			Update(uManage);
+			InteractionManager::GetInstance().CheckMonsterCollision();
 		}
-		InteractionManager::GetInstance().CheckUserCollision();
-		InteractionManager::GetInstance().CheckMonsterCollision();
+		//InteractionManager::GetInstance().CheckUserCollision();
+		
 	}
 	userInput.join();
 

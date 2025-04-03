@@ -9,6 +9,13 @@ using namespace std;
 class Actor;
 struct Pos;
 
+enum class MAPTYPE
+{
+	NORMAL_MAP,
+	TOXIC_MAP,
+	EVENT_MAP
+};
+
 enum class MAPVALUETYPE
 {
 	ROAD,
@@ -23,6 +30,7 @@ private:
 	GameManager(const GameManager& ref) {}
 	GameManager& operator=(const GameManager& ref) {}
 	~GameManager() { }
+
 	map<string, shared_ptr<Actor>> actors;
 	vector<shared_ptr<Item>> dropedItems;
 	shared_ptr<Item> questBag = make_shared<Item>(2, Pos(0,0));
@@ -44,24 +52,30 @@ public:
 	bool PostCheckBeforeGenerateMonster(Pos monsterPos);
 
 	// 몬스터가 죽으면 일정 확률에 따라 아이템을 생성해주는 메소드
-	void SpawnItemAfterMonsterDead(Pos pos);
-
-	void SetGameState(bool* flag) { this->bGameState = flag; }
+	void SpawnItemAfterMonsterDead(const Pos& pos);
 	
+	// 플레이어가 맵을 이동 할 떄 사용하는 메소드
+	void PlayerMoveMap(Pos maxSize);
+
 	const map<string, shared_ptr<Actor>> GetActors();
 	shared_ptr<Actor> GetUser();
 	shared_ptr<Actor> GetNPC();
 	vector<shared_ptr<Actor>> GetMonster();
 	shared_ptr<Item> GetInventory();
-	vector<shared_ptr<Item>> GetDrop();
+	vector<shared_ptr<Item>>& GetDrop();
 
-	void RemoveDeadActor();
+	void RemoveDeadActor(string name);
+	void RemoveAllMonster();
+	void RemoveFieldEntity();
+	void RemoveItemFromPos(Pos pos);
 
-	void ModifyActorPosByName(string name, Pos modifyedPos);
 	void ChangeGameState() { *this->bGameState = false; }
 
 	bool bGetGameState() { return this->bGameState; }
+	void SetGameState(bool* flag) { this->bGameState = flag; }
 };
+
+
 
 class MapManager
 {
@@ -74,33 +88,30 @@ private:
 	vector<Pos> ObstacleVector;
 
 	//===============  Map Data  ====================
-	vector<vector<int>> Stage1 = {
-
-	};
-	//===============================================
-	vector<vector<int>> OriginalMap = {
-		{1,0,0,0,0,11,11,11,11,0},
-		{0,11,11,11,11,11,11,11,11,0},
-		{0,0,0,0,0,0,0,1,0,0},
-		{1,0,0,0,0,0,0,0,1,0},
-		{0,0,0,1,1,1,0,0,1,0}
-	};
+	vector<vector<int>> DefaultMap;
+	vector<vector<int>> BaseMap;
 	vector<vector<int>> CopyMap;
 
-	int SizeY = this->OriginalMap.size();
-	int SizeX = this->OriginalMap[0].size();
+	int SizeX = 0;
+	int SizeY = 0;
+	
 	void GenerateMap();
 
+	// Seperate Map Generator By MAPTYPE
+	void GenNormalMap();
+	void GenToxicMap();
+	void GenEventMap();
+
+	void GenObstacle();
+
+	void RenderMap();
+
 	// Cursor Move & Rewrite Screen method
-	void MoveCursorToTopLeft()
-	{
-		COORD coord = { 0,0 };
-		SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
-	}
+	void MoveCursorToTopLeft();
 
 	void FindAllObstaclePos();
 	
-	MAPVALUETYPE MapDataCheck(const Pos pos);
+	
 
 public:
 	static MapManager& GetInstance()
@@ -109,7 +120,10 @@ public:
 		return MM;
 	}
 	void ShowMap();
-	bool ActorObstacleCheck(Pos& pos, string actorName="");
+	MAPVALUETYPE MapDataCheck(const Pos pos);
+	bool EntityObstacleCheck(Pos& pos, string actorName="");
+	bool EntityBoundaryCheck(Pos& pos);
+	Pos CheckKnockBackPos(shared_ptr<Actor> Target, shared_ptr<Actor> Attacker = nullptr);
 
 	Pos GetMapSize();
 	int GetMapPosValue(Pos pos);
@@ -133,7 +147,6 @@ public:
 		return IM;
 	}
 
-	void CheckAllActorCollision();
 	void CheckUserCollision();
 	void CheckMonsterCollision();
 	void CheckNPCCollision();

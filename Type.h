@@ -7,7 +7,7 @@ struct Pos
 	Pos() {}
 	Pos(int x, int y);
 
-	void operator=(const Pos& other);
+	//void operator=(const Pos& other);
 };
 
 Pos operator+(const Pos& left, const Pos& right);
