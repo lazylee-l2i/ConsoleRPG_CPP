@@ -4,7 +4,6 @@
 
 MapManager::MapManager()
 {
-	this->FindAllObstaclePos();
 	this->SizeY = 11;
 	this->SizeX = 21;
 	this->DefaultMap.assign(this->SizeY, vector<int>(this->SizeX, 0));
@@ -22,31 +21,7 @@ MapManager::MapManager()
 
 void MapManager::GenerateMap()
 {
-	// WIP
-	/*
-	int mapSelector = iRandNum(10);
-	
-	// 10%
-	if (mapSelector == 0)
-	{
-		// Event Map Gen _ WIP
-		this->GenEventMap();
-	}
-	// 30%
-	else if (mapSelector > 0 && mapSelector < 3)
-	{
-		// Toxic Map Gen _ WIP
-		this->GenToxicMap();
-	}
-	// 70%
-	else
-	{
-		// Normal Map Gen
-		this->GenNormalMap();
-	}
-	*/
 	copy(this->DefaultMap.begin(), this->DefaultMap.end(), this->BaseMap.begin());
-	//this->BaseMap = this->DefaultMap;
 	this->GenObstacle();
 	
 }
@@ -65,30 +40,13 @@ void MapManager::GenObstacle()
 				}
 			}
 			else{
-				/*int value = iRandNum(30);
-				if (value > 25)
+				if ((rand() % 100) < 16)
 				{
 					this->BaseMap[y][x] = 1;
-				}*/
+				}
 			}
 		}
 	}
-	this->FindAllObstaclePos();
-}
-
-void MapManager::GenNormalMap()
-{
-	this->GenObstacle();
-}
-
-void MapManager::GenToxicMap()
-{
-	// WIP
-}
-
-void MapManager::GenEventMap()
-{
-	// WIP
 }
 
 void MapManager::MoveCursorToTopLeft()
@@ -97,13 +55,12 @@ void MapManager::MoveCursorToTopLeft()
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);	
 }
 
-void MapManager::RenderMap()
+void MapManager::MapDataSetting()
 {
 	copy(BaseMap.begin(), BaseMap.end(), CopyMap.begin());
-	//this->CopyMap = this->BaseMap;
 	for (const auto entity : GameManager::GetInstance().GetActors())
 	{
-		if (entity.first == "User")
+		if (entity.first == "Player")
 		{
 			this->CopyMap[entity.second->GetPos().y][entity.second->GetPos().x] = 5;
 			if (this->PlayerAttack)
@@ -136,7 +93,7 @@ void MapManager::RenderMap()
 
 void MapManager::ShowMap()
 {
-	this->RenderMap();
+	this->MapDataSetting();
 
 	this->MoveCursorToTopLeft();
 	// 0 = Road, 1 = Stone, 2 = Exit
@@ -161,7 +118,7 @@ void MapManager::ShowMap()
 				map_data += "◆";
 			else if (this->CopyMap[y][x] == 7)
 			{
-				DIRECTION dir = GameManager::GetInstance().GetUser()->GetDirection();
+				DIRECTION dir = GameManager::GetInstance().GetPlayer()->GetDirection();
 				switch (dir)
 				{
 				case DIRECTION::UP:
@@ -192,36 +149,18 @@ void MapManager::ShowMap()
 	cout << map_data;
 }
 
+
+
 Pos MapManager::GetMapSize()
 {
 	return Pos(this->SizeX, this->SizeY);
 }
 
-int MapManager::GetMapPosValue(Pos pos)
-{
-	return this->BaseMap[pos.y][pos.x];
-}
+
 
 const vector<Pos>& MapManager::GetAllObstaclePos()
 {
 	return this->ObstacleVector;
-}
-
-
-
-void MapManager::FindAllObstaclePos()
-{
-	vector<Pos> ObstaclePos;
-	for (int i = 0; i < this->BaseMap.size(); i++)
-	{
-		for (int j = 0; j < this->BaseMap[0].size(); j++)
-		{
-			if (BaseMap[i][j] == 1)
-				ObstaclePos.push_back(Pos(j, i));
-		}
-	}
-	this->ObstacleVector = ObstaclePos;
-
 }
 
 void MapManager::SetAttackTile(Pos pos)
@@ -237,7 +176,7 @@ void MapManager::SetAttackTile(Pos pos)
 // 2 = found exit
 MAPVALUETYPE MapManager::MapDataCheck(const Pos pos)
 {
-	int MapData = this->GetMapPosValue(pos);
+	int MapData = this->BaseMap[pos.y][pos.x];
 	// 지금 당장은 타입만 받아 전환해주는
 	// Converter 역할을 하는 메소드입니다만
 	// 나중에 Converting 과정에서 필요하면 추가 작성할 수 있게
@@ -274,7 +213,7 @@ bool MapManager::EntityObstacleCheck(Pos& pos, string actorName)
 		// 이거는 User만 진입하게
 		// Map Change 하고 User의 위치만 이동시키고
 		// Monster는 삭제하고 다시 재배치
-		if (actorName == "User")
+		if (actorName == "Player")
 		{
 			// Code Here
 			GameManager::GetInstance().RemoveFieldEntity();

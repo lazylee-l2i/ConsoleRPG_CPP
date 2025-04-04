@@ -17,7 +17,7 @@ public:
 		this->name = Name;
 		this->pos = pos;
 		this->hp = hp;
-		if (Name == "User")
+		if (Name == "Player")
 		{ 
 			this->attack = 5;
 		}

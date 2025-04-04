@@ -5,7 +5,7 @@
 // User vs (Monster or Item)
 void InteractionManager::CheckUserCollision()
 {
-	shared_ptr<Actor> player = GameManager::GetInstance().GetUser();
+	shared_ptr<Actor> player = GameManager::GetInstance().GetPlayer();
 	vector<shared_ptr<Actor>> monsters = GameManager::GetInstance().GetMonster();
 	vector<shared_ptr<Item>> drops = GameManager::GetInstance().GetDrop();
 	Pos pos = player->GetPos();
@@ -18,7 +18,6 @@ void InteractionManager::CheckUserCollision()
 			player->SetHP(player->GetHP() - 1);
 			
 			MapManager::GetInstance().CheckKnockBackPos(player);
-			//player->ActorKnockBack(monster->GetDirectionByPos());
 
 		}
 	}
@@ -52,7 +51,7 @@ void InteractionManager::CheckUserCollision()
 void InteractionManager::CheckMonsterCollision()
 {
 	vector<shared_ptr<Actor>> monsters = GameManager::GetInstance().GetMonster();
-	shared_ptr<Actor> player = GameManager::GetInstance().GetUser();
+	shared_ptr<Actor> player = GameManager::GetInstance().GetPlayer();
 	int size = monsters.size();
 	for (int i = 0; i < size; i++)
 	{
@@ -88,7 +87,7 @@ void InteractionManager::CheckNPCCollision()
 
 void InteractionManager::UserAttackMonster()
 {
-	shared_ptr<Actor> user = GameManager::GetInstance().GetUser();
+	shared_ptr<Actor> user = GameManager::GetInstance().GetPlayer();
 	vector<shared_ptr<Actor>> monsters = GameManager::GetInstance().GetMonster();
 
 	for (auto monster : monsters)

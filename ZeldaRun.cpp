@@ -2,9 +2,11 @@
 
 using namespace std;
 
+
+
 void Init()
 {
-	GameManager::GetInstance().InsertActorInMap(new Actor("User", Pos(5, 3), (int)5));
+	GameManager::GetInstance().InsertActorInMap(new Actor("Player", Pos(5, 3), (int)5));
 
 }
 
@@ -22,7 +24,7 @@ void Play()
 	GameManager::GetInstance().SetGameState(flag);
 
 	GameTimer* timer = new GameTimer();
-	timer->SetFrameTick(10);
+	timer->SetFrameTick(30);
 	
 	MapManager::GetInstance().ShowMap();
 
@@ -30,6 +32,7 @@ void Play()
 	thread userInput(&UpdateManager::PlayerUpdateLoop, uManage, flag, timer->GetFrameTickTime());
 	
 	timer->LoopStart();
+	MapManager::GetInstance().ShowMap();
 	while (*flag)
 	{	
 		Sleep(timer->GetFrameTickTime());
@@ -40,8 +43,6 @@ void Play()
 			Update(uManage);
 			InteractionManager::GetInstance().CheckMonsterCollision();
 		}
-		//InteractionManager::GetInstance().CheckUserCollision();
-		
 	}
 	userInput.join();
 
@@ -57,6 +58,7 @@ void Play()
 
 int main()
 {
+	srand(static_cast<unsigned int>(GetTickCount64()));
 	Play();
 
 	return 0;

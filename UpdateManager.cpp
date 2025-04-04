@@ -24,7 +24,7 @@ DIRECTION UpdateManager::PlayerInput()
 
 void UpdateManager::PlayerUpdate()
 {
-	shared_ptr<Actor> user = GameManager::GetInstance().GetUser();
+	shared_ptr<Actor> user = GameManager::GetInstance().GetPlayer();
 	try
 	{
 		if (user == nullptr)

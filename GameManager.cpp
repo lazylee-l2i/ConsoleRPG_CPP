@@ -31,7 +31,7 @@ void GameManager::AutoGenerateMonster(int n)
 
 bool GameManager::PostCheckBeforeGenerateMonster(Pos monsterPos)
 {
-	if (this->GetUser()->GetPos() == monsterPos)
+	if (this->GetPlayer()->GetPos() == monsterPos)
 		return false;
 	Pos maxSize = MapManager::GetInstance().GetMapSize();
 	if (monsterPos.x == 0 || monsterPos.x == maxSize.x-1 || monsterPos.y == 0 || monsterPos.y == maxSize.y-1)
@@ -70,10 +70,10 @@ void GameManager::SpawnItemAfterMonsterDead(const Pos& pos)
 
 void GameManager::PlayerMoveMap(Pos maxSize)
 {
-	Pos userPos = this->GetUser()->GetPos();
+	Pos userPos = this->GetPlayer()->GetPos();
 	userPos.x = maxSize.x - userPos.x - 1;
 	userPos.y = maxSize.y - userPos.y - 1;
-	this->GetUser()->SetPos(userPos);
+	this->GetPlayer()->SetPos(userPos);
 
 }
 
@@ -82,11 +82,11 @@ const map<string, shared_ptr<Actor>> GameManager::GetActors()
 	return this->actors;
 }
 
-shared_ptr<Actor> GameManager::GetUser()
+shared_ptr<Actor> GameManager::GetPlayer()
 {
 	for (auto actor : this->actors)
 	{
-		if (actor.first.find("User") == 0)
+		if (actor.first.find("Player") == 0)
 			return actor.second;
 	}
 	return nullptr;

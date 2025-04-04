@@ -58,7 +58,7 @@ public:
 	void PlayerMoveMap(Pos maxSize);
 
 	const map<string, shared_ptr<Actor>> GetActors();
-	shared_ptr<Actor> GetUser();
+	shared_ptr<Actor> GetPlayer();
 	shared_ptr<Actor> GetNPC();
 	vector<shared_ptr<Actor>> GetMonster();
 	shared_ptr<Item> GetInventory();
@@ -96,22 +96,11 @@ private:
 	int SizeY = 0;
 	
 	void GenerateMap();
-
-	// Seperate Map Generator By MAPTYPE
-	void GenNormalMap();
-	void GenToxicMap();
-	void GenEventMap();
-
 	void GenObstacle();
-
-	void RenderMap();
+	void MapDataSetting();
 
 	// Cursor Move & Rewrite Screen method
 	void MoveCursorToTopLeft();
-
-	void FindAllObstaclePos();
-	
-	
 
 public:
 	static MapManager& GetInstance()
@@ -126,7 +115,6 @@ public:
 	Pos CheckKnockBackPos(shared_ptr<Actor> Target, shared_ptr<Actor> Attacker = nullptr);
 
 	Pos GetMapSize();
-	int GetMapPosValue(Pos pos);
 	const vector<Pos>& GetAllObstaclePos();
 	
 	void SetAttackTile(Pos pos);
