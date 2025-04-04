@@ -34,7 +34,9 @@ void InteractionManager::CheckUserCollision()
 			if (ItemName == "heart")
 			{
 				// WIP
-				player->SetHP(player->GetHP() + 2);
+				int hp = player->GetHP();
+				hp = hp > 10 ? 10 : hp;
+				player->SetHP(hp);
 			}
 			else if (ItemName == "quest")
 			{
@@ -93,14 +95,6 @@ void InteractionManager::UserAttackMonster()
 		if ((user->GetPos() + user->GetDirectionByPos()) == monster->GetPos())
 		{
 			monster->SetHP(monster->GetHP() - user->GetAttack());
-			/*Pos current = monster->GetPos();
-
-			monster->ActorKnockBack(user->GetDirectionByPos());
-			Pos After = monster->GetPos();
-			if (not MapManager::GetInstance().EntityObstacleCheck(After, monster->GetName()))
-			{
-				monster->SetPos(current);
-			}*/
 			MapManager::GetInstance().CheckKnockBackPos(monster, user);
 
 			if (monster->GetHP() <= 0)

@@ -1,6 +1,7 @@
-#include "ZeldaCore.h"
+//#include "ZeldaCore.h"
 #include "Manager.h"
 #include <algorithm>
+
 
 MapManager::MapManager()
 {
@@ -94,59 +95,73 @@ void MapManager::MapDataSetting()
 void MapManager::ShowMap()
 {
 	this->MapDataSetting();
-
 	this->MoveCursorToTopLeft();
+
+	// 게임 상태
+	auto player = GameManager::GetInstance().GetPlayer();
+	int hp = player ? player->GetHP() : 0;
+
+	auto inventory = GameManager::GetInstance().GetInventory();
+	int questCount = inventory ? inventory->GetItemCount() : 0;
+
+
 	// 0 = Road, 1 = Stone, 2 = Exit
 	// 5 = Player, 6 = Monster, 7 = Player Attack
 	// 8 = NPC, 9 = small heart(hp + 1), {10_WIP = Big heart(MAX HP + 1)}
-	// 11 = quest item;
-	string map_data = "";
-	for (int y = 0; y < this->CopyMap.size(); y++)
+	// 11 = quest item, 13 = Actor Dead
+	for (int y = 0; y < this->SizeY; ++y)
 	{
-		
-		for (int x = 0; x < this->CopyMap[y].size(); x++)
+		cout << "│";
+		for (int x = 0; x < this->SizeX; ++x)
 		{
-			if (this->CopyMap[y][x] == 0)
-				map_data += "  ";
-			else if (this->CopyMap[y][x] == 1)
-				map_data += "■";
-			else if (this->CopyMap[y][x] == 2)
-				map_data += "▦";
-			else if (this->CopyMap[y][x] == 5)
-				map_data += "★";
-			else if (this->CopyMap[y][x] == 6)
-				map_data += "◆";
-			else if (this->CopyMap[y][x] == 7)
+			int val = this->CopyMap[y][x];
+			if (val == 0) cout << "  ";
+			else if (val == 1) cout << "■";
+			else if (val == 2) cout << "▦";
+			else if (val == 5)
 			{
-				DIRECTION dir = GameManager::GetInstance().GetPlayer()->GetDirection();
-				switch (dir)
-				{
-				case DIRECTION::UP:
-					map_data += "▲";
-					break;
-				case DIRECTION::DOWN:
-					map_data += "▼";
-					break;
-				case DIRECTION::LEFT:
-					map_data += "◀";
-					break;
-				case DIRECTION::RIGHT:
-					map_data += "▶";
-					break;
-				}
+				if (hp != 0) cout << "★";
+				else cout << " X";
+
 			}
-			else if (this->CopyMap[y][x] == 8)
-			{
-				map_data += "♥";
+			else if (val == 6) cout << "◆";
+			
+			else if (val == 7) {
+				DIRECTION dir = player->GetDirection();
+				if (dir == DIRECTION::UP) cout << "▲";
+				else if (dir == DIRECTION::DOWN) cout << "▼";
+				else if (dir == DIRECTION::LEFT) cout << "◀";
+				else if (dir == DIRECTION::RIGHT) cout << "▶";
 			}
-			else if (this->CopyMap[y][x] == 11)
-			{
-				map_data += "♬";
-			}
+			else if (val == 8) cout << "♥";
+			else if (val == 11) cout << "♬";
+			else cout << "  ";
 		}
-		map_data += "\n";
+		cout << "\n";
 	}
-	cout << map_data;
+
+
+	// 체력 바 출력
+	cout << "│ HP    : ";
+	for (int i = 0; i < hp; ++i) cout << "♥ ";
+	for (int i = 0; i < player->GetMaxHP() - hp; i++) cout << "♡ ";
+	cout << endl;
+
+	// 퀘스트 아이템 출력
+	cout << "│ Quest : ";
+	for (int i = 0; i < questCount; ++i) cout << "♪ ";
+
+	if (player->GetHP() <= 0)
+	{
+		cout << "GAME OVER." << endl;
+		GameManager::GetInstance().ChangeGameState();
+	}
+	else if (questCount == 10)
+	{
+		cout << "You Collected All Quest Item." << endl;
+		GameManager::GetInstance().ChangeGameState();
+	}
+
 }
 
 

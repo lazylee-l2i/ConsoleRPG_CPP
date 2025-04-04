@@ -8,6 +8,7 @@ class Actor
 {
 	string name = "";
 	int hp = 0;
+	int MaxHP = 0;
 	int attack = 0;
 	Pos pos;
 	DIRECTION moveDirection = DIRECTION::QUIT;
@@ -19,6 +20,7 @@ public:
 		this->hp = hp;
 		if (Name == "Player")
 		{ 
+			this->MaxHP = 10;
 			this->attack = 5;
 		}
 		else
@@ -50,6 +52,7 @@ public:
 	string GetName() { return this->name; }
 	int GetHP() { return this->hp; }
 	int GetAttack() { return this->attack; }
+	int GetMaxHP() { return this->MaxHP; }
 
 	// Setter
 	void SetDirection(DIRECTION dir) { this->moveDirection = dir; }
