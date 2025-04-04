@@ -6,7 +6,7 @@ using namespace std;
 
 void Init()
 {
-	GameManager::GetInstance().InsertActorInMap(new Actor("Player", Pos(5, 3), (int)5));
+	GameManager::GetInstance().InsertActorInMap(make_shared<Actor>(Actor("Player", Pos(5, 3), (int)5)));
 
 }
 
@@ -24,7 +24,7 @@ void Play()
 	GameManager::GetInstance().SetGameState(flag);
 
 	GameTimer* timer = new GameTimer();
-	timer->SetFrameTick(50);
+	timer->SetFrameTick(10);
 	
 	MapManager::GetInstance().ShowMap();
 

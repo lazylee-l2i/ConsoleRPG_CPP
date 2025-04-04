@@ -36,7 +36,7 @@ public:
 		return GM;
 	}
 	// 코드에서 직접 삽입할 때 사용
-	void InsertActorInMap(Actor* actor);
+	void InsertActorInMap(shared_ptr<Actor> actor);
 
 	// 자동으로 몬스터를 n만큼 생성하게 해주는 메소드
 	void AutoGenerateMonster(int n);

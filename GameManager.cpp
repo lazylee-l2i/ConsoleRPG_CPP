@@ -1,7 +1,7 @@
 #include "ZeldaCore.h"
 #include "Manager.h"
 
-void GameManager::InsertActorInMap(Actor* actor)
+void GameManager::InsertActorInMap(shared_ptr<Actor> actor)
 {
 	string name = actor->GetName();
 	this->actors.insert({ name, shared_ptr<Actor>(actor) });
@@ -16,7 +16,8 @@ void GameManager::AutoGenerateMonster(int n)
 	while (this->GetMonster().size() != n)
 	{
 		string monsterName = name + to_string(idx);
-		Actor* tempMon = new Actor(monsterName, Pos(iRandNum(size.x), iRandNum(size.y)), 2);
+		//Actor* tempMon = new Actor(monsterName, Pos(iRandNum(size.x), iRandNum(size.y)), 2);
+		shared_ptr<Actor> tempMon = make_shared<Actor>(monsterName, Pos(iRandNum(size.x), iRandNum(size.y)), 2);
 		if (this->PostCheckBeforeGenerateMonster(tempMon->GetPos()))
 		{
 			this->InsertActorInMap(tempMon);
@@ -26,7 +27,6 @@ void GameManager::AutoGenerateMonster(int n)
 		{
 			
 		}
-		delete tempMon;
 	}
 }
 
