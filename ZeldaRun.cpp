@@ -24,7 +24,7 @@ void Play()
 	GameManager::GetInstance().SetGameState(flag);
 
 	GameTimer* timer = new GameTimer();
-	timer->SetFrameTick(30);
+	timer->SetFrameTick(50);
 	
 	MapManager::GetInstance().ShowMap();
 
@@ -44,12 +44,13 @@ void Play()
 			InteractionManager::GetInstance().CheckMonsterCollision();
 		}
 	}
-	userInput.join();
 
 	if (GameManager::GetInstance().GetInventory()->GetItemCount() == 10)
 	{
 		cout << "당신이 이겼습니다." << endl;
 	}
+
+	userInput.join();
 
 	delete flag;
 	delete timer;

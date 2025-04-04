@@ -9,13 +9,6 @@ using namespace std;
 class Actor;
 struct Pos;
 
-enum class MAPTYPE
-{
-	NORMAL_MAP,
-	TOXIC_MAP,
-	EVENT_MAP
-};
-
 enum class MAPVALUETYPE
 {
 	ROAD,
@@ -84,8 +77,6 @@ private:
 	MapManager(const MapManager& ref) {}
 	MapManager& operator=(const MapManager& ref) {}
 	~MapManager() {}
-	bool PlayerAttack = false;
-	vector<Pos> ObstacleVector;
 
 	//===============  Map Data  ====================
 	vector<vector<int>> DefaultMap;
@@ -95,6 +86,9 @@ private:
 	int SizeX = 0;
 	int SizeY = 0;
 	
+	bool PlayerAttack = false;
+	vector<Pos> ObstacleVector;
+
 	void GenerateMap();
 	void GenObstacle();
 	void MapDataSetting();

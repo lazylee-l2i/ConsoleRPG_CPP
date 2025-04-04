@@ -24,8 +24,9 @@ void GameManager::AutoGenerateMonster(int n)
 		}
 		else
 		{
-			delete tempMon;
+			
 		}
+		delete tempMon;
 	}
 }
 

@@ -43,8 +43,6 @@ void InteractionManager::CheckUserCollision()
 			GameManager::GetInstance().RemoveItemFromPos(itemPos);
 		}
 	}
-	
-	
 }
 
 // Monster to Monster
