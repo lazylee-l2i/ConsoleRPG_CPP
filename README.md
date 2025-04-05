@@ -65,10 +65,10 @@
 ```mermaid
 flowchart TD
     Start[게임 시작] --> Init[Manager 초기화]
-    Init --> Input[입력 처리 (UpdateManager)]
+    Init --> Input["입력 처리 - UpdateManager"]
     Input --> Action[행동 업데이트]
-    Action --> Collision[충돌 및 상호작용 체크 (InteractionManager)]
-    Collision --> MapRender[맵 렌더링 (MapManager)]
+    Action --> Collision["충돌 및 상호작용 체크 - InteractionManager"]
+    Collision --> MapRender["맵 렌더링 - MapManager"]
     MapRender --> Loop[게임 상태 확인 및 루프]
     Loop -->|계속| Input
     Loop -->|게임 종료| End[게임 종료 및 메모리 정리]
