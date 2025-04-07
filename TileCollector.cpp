@@ -19,7 +19,6 @@ const vector<pair<EMapTileType, Pos>> TileCollector::CollectTiles() const
                     Player* player = dynamic_cast<Player*>(entity.get());
                     Pos attackPos = player->GetAttackPos();
                     TileInfo.push_back({ EMapTileType::ATTACK, attackPos });
-                    GET_SINGLE(InputManager)->AttackKeyRelease();
                 }
                 break;
             }

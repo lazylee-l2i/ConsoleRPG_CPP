@@ -50,7 +50,7 @@ void UpdateManager::UpdatePlayer()
     auto player = GET_SINGLE(EntityManager)->GetPlayer();
     auto& entities = GET_SINGLE(EntityManager)->GetAllEntities();
 
-    if (GET_SINGLE(GameManager)->GetAttackFlag())
+    if (GET_SINGLE(InputManager)->IsAttackKeyPressed())
     {
         Pos attackPos = player->GetAttackPos();
 
@@ -60,7 +60,6 @@ void UpdateManager::UpdatePlayer()
             {
                 player->Attack(iter->get());
                 entities.erase(iter);
-                GET_SINGLE(GameManager)->ChangeAttackFlag();
                 break;
             }
         }

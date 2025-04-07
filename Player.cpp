@@ -59,7 +59,6 @@ void Player::Move()
 		break;
 	case EInputType::ATTACKCALL:
 		this->SetAttackPos(DirCommand);
-		GET_SINGLE(GameManager)->ChangeAttackFlag();
 		break;
 	case EInputType::QUIT:
 		GET_SINGLE(GameManager)->ChangeGameLoopFlag();
