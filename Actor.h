@@ -1,65 +1,122 @@
 #pragma once
 #include <string>
 
+
+#include "Entity.h"
 #include "Type.h"
+
+#include "EntityManager.h"
 using namespace std;
 
-class Actor
+class Entity;
+
+class Actor : public Entity
 {
-	string name = "";
-	int hp = 0;
+protected:
+	int ActorHP = 0;
 	int MaxHP = 0;
-	int attack = 0;
-	Pos pos;
-	DIRECTION moveDirection = DIRECTION::QUIT;
+	int ActorAttack = 0;
+	Pos PostPos;
+	EInputType inputType = EInputType::QUIT;
 public:
-	Actor(string Name, const Pos& pos, int hp)
-	{
-		this->name = Name;
-		this->pos = pos;
-		this->hp = hp;
-		if (Name == "Player")
-		{ 
-			this->MaxHP = 10;
-			this->attack = 5;
-		}
-		else
-		{ 
-			this->attack = 1;
-		}
-	}
+	Actor() {}
+	Actor(const string name, const Pos& pos) : Entity(name, pos) {}
 
-	Actor(string Name, const Pos& pos)
-	{
-		this->name = Name;
-		this->pos = pos;
-		this->hp = 5;
-	}
+	virtual ~Actor() {}
 
-	Actor()
-	{
-		name = "";
-		pos = Pos();
-		hp = 0;
-	}
-
-	~Actor() {}
-
+public:
 	// Getter
-	DIRECTION GetDirection() { return this->moveDirection; }
-	Pos GetDirectionByPos();
-	Pos GetPos() { return this->pos; }
-	string GetName() { return this->name; }
-	int GetHP() { return this->hp; }
-	int GetAttack() { return this->attack; }
-	int GetMaxHP() { return this->MaxHP; }
+	const EInputType GetDirection() { return this->inputType; }
+	const Pos GetPos() { return this->pos; }
+	const Pos GetPostPos() { return this->PostPos; }
+	const string GetName() { return this->name; }
+	const int GetHP() { return this->ActorHP; }
+	const int GetAttack() { return this->ActorAttack; }
+	const int GetMaxHP() { return this->MaxHP; }
+	const Pos GetDirectionByPos();
 
 	// Setter
-	void SetDirection(DIRECTION dir) { this->moveDirection = dir; }
-	void SetPos(Pos pos) { this->pos = pos; }
-	void SetHP(int hp) { this->hp = hp; }
-	void SetAttack(int attack) { this->attack = attack; }
-	
-	// Method
+	void SetDirection(EInputType dir) { this->inputType = dir; }
+	void SetPos(Pos pos)
+	{ 
+		this->PostPos = this->pos;
+		this->pos = pos;
+	}
+	void SetHP(int ActorHP) { this->ActorHP = ActorHP; }
+	void SetAttack(int ActorAttack) { this->ActorAttack = ActorAttack; }
+
+public:
+	// Actor Unique Method
 	Pos ActorKnockBack(Pos pos = Pos(0, 0));
+	void ActorRollBack();
+	
+	// Method override by Entity
+	virtual void Update() override;
+	virtual void Interact(Entity* other) override;
+
+	// Abstract Method at Actor
+	virtual void Move() = 0;
+	
+};
+
+class Player : public Actor
+{
+private:
+	int QuestCount = 0;
+	Pos AttackPos;
+public:
+	Player(const Pos& pos) : Actor("Player", pos) {
+		this->name = "Player";
+		this->ActorAttack = 5;
+		this->ActorHP = 5;
+		this->MaxHP = 10;
+		this->pos = pos;
+		this->PostPos = Pos(0, 0);
+		this->type = EEntityType::PLAYER;
+		this->inputType = EInputType::UNDEFINE;
+	}
+	virtual ~Player() {}
+public:
+	// Method override by Entity
+	virtual void Update() override;
+	virtual void Interact(Entity* other) override;
+
+	// Abstract Method at Actor
+	virtual void Move() override;
+
+	// Unique Method
+	void Attack(Entity* other);
+	void SetAttackPos(EInputType dir);
+	Pos GetAttackPos();
+	int GetQuestCount() { return this->QuestCount; }
+};
+
+class Monster : public Actor
+{
+public:
+	Monster() {}
+	Monster(int idx);
+	virtual ~Monster() {}
+public:
+	// Method override by Entity
+	virtual void Update() override;
+	virtual void Interact(Entity* other) override;
+
+	// Abstract Method at Actor
+	virtual void Move() override;
+};
+
+class NPC : public Actor
+{
+private:
+
+public:
+	virtual ~NPC() {}
+public:
+	// Method override by Entity
+	virtual void Update() override {};
+	virtual void Interact(Entity* other) override {};
+
+	// Abstract Method at Actor
+	virtual void Move() override {};
 };

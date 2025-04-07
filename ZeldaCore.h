@@ -10,10 +10,16 @@
 
 #include <conio.h>
 
+#include "Entity.h"
 #include "Actor.h"
-#include "Type.h"
-#include "GameTimer.h"
-#include "Manager.h"
 #include "Item.h"
+#include "Type.h"
 
-int iRandNum(int N);
+#include "EntityManager.h"
+#include "InputManager.h"
+#include "TimeManager.h"
+#include "MapManager.h"
+#include "UpdateManager.h"
+#include "GameManager.h"
+
+

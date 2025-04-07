@@ -13,72 +13,114 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="소스 파일\Managers">
-      <UniqueIdentifier>{55f226c6-930b-4f6b-8612-df00818af055}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\Class">
+    <Filter Include="소스 파일\01_Entity">
       <UniqueIdentifier>{ee19aa12-f42a-4155-9002-7aa5abae05c0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="헤더 파일\Entity">
+    <Filter Include="소스 파일\01_Entity\Header">
       <UniqueIdentifier>{6e893a74-556e-4b28-8dab-3c424de8c52f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="헤더 파일\Manager">
+    <Filter Include="소스 파일\02_Manager">
+      <UniqueIdentifier>{55f226c6-930b-4f6b-8612-df00818af055}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\02_Manager\Header">
       <UniqueIdentifier>{8430e074-7c3c-4074-9c85-4c51db88f3b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\00_Game">
+      <UniqueIdentifier>{93a943c8-00af-492f-bcff-230a23e6d651}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\00_Game\Header">
+      <UniqueIdentifier>{6df4b831-324d-4778-9cd2-6d119d904a5c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\03_Utill">
+      <UniqueIdentifier>{0a4e3517-c444-4f11-9ddb-8ba1be4c4019}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\03_Utill\Header">
+      <UniqueIdentifier>{678572fd-0627-4753-b62a-14382d5c60b9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ZeldaRun.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="ZeldaCore.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Manager.cpp">
-      <Filter>소스 파일\Managers</Filter>
-    </ClCompile>
-    <ClCompile Include="GameManager.cpp">
-      <Filter>소스 파일\Managers</Filter>
-    </ClCompile>
     <ClCompile Include="MapManager.cpp">
-      <Filter>소스 파일\Managers</Filter>
-    </ClCompile>
-    <ClCompile Include="InteractionManager.cpp">
-      <Filter>소스 파일\Managers</Filter>
-    </ClCompile>
-    <ClCompile Include="UpdateManager.cpp">
-      <Filter>소스 파일\Managers</Filter>
+      <Filter>소스 파일\02_Manager</Filter>
     </ClCompile>
     <ClCompile Include="Actor.cpp">
-      <Filter>소스 파일\Class</Filter>
+      <Filter>소스 파일\01_Entity</Filter>
     </ClCompile>
     <ClCompile Include="Item.cpp">
-      <Filter>소스 파일\Class</Filter>
+      <Filter>소스 파일\01_Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeManager.cpp">
+      <Filter>소스 파일\02_Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="ZeldaCore.cpp">
+      <Filter>소스 파일\00_Game</Filter>
+    </ClCompile>
+    <ClCompile Include="ZeldaRun.cpp">
+      <Filter>소스 파일\00_Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity.cpp">
+      <Filter>소스 파일\01_Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>소스 파일\01_Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="InputManager.cpp">
+      <Filter>소스 파일\02_Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Monster.cpp">
+      <Filter>소스 파일\01_Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityManager.cpp">
+      <Filter>소스 파일\02_Manager</Filter>
     </ClCompile>
     <ClCompile Include="Type.cpp">
-      <Filter>소스 파일\Class</Filter>
+      <Filter>소스 파일\03_Utill</Filter>
     </ClCompile>
-    <ClCompile Include="GameTimer.cpp">
-      <Filter>소스 파일\Managers</Filter>
+    <ClCompile Include="UpdateManager.cpp">
+      <Filter>소스 파일\02_Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="GameManager.cpp">
+      <Filter>소스 파일\02_Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="TileCollector.cpp">
+      <Filter>소스 파일\03_Utill</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ZeldaCore.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Actor.h">
-      <Filter>헤더 파일\Entity</Filter>
+      <Filter>소스 파일\01_Entity\Header</Filter>
     </ClInclude>
     <ClInclude Include="Item.h">
-      <Filter>헤더 파일\Entity</Filter>
+      <Filter>소스 파일\01_Entity\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="InputManager.h">
+      <Filter>소스 파일\02_Manager\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="ZeldaCore.h">
+      <Filter>소스 파일\00_Game\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>소스 파일\01_Entity\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeManager.h">
+      <Filter>소스 파일\02_Manager\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityManager.h">
+      <Filter>소스 파일\02_Manager\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="MapManager.h">
+      <Filter>소스 파일\02_Manager\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="TileCollector.h">
+      <Filter>소스 파일\03_Utill\Header</Filter>
     </ClInclude>
     <ClInclude Include="Type.h">
-      <Filter>헤더 파일\Entity</Filter>
+      <Filter>소스 파일\03_Utill\Header</Filter>
     </ClInclude>
-    <ClInclude Include="GameTimer.h">
-      <Filter>헤더 파일\Manager</Filter>
+    <ClInclude Include="UpdateManager.h">
+      <Filter>소스 파일\02_Manager\Header</Filter>
     </ClInclude>
-    <ClInclude Include="Manager.h">
-      <Filter>헤더 파일\Manager</Filter>
+    <ClInclude Include="GameManager.h">
+      <Filter>소스 파일\02_Manager\Header</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

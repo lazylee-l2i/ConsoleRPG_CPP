@@ -20,14 +20,18 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Actor.cpp" />
+    <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="GameManager.cpp" />
-    <ClCompile Include="GameTimer.cpp" />
-    <ClCompile Include="InteractionManager.cpp" />
+    <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="Monster.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="TileCollector.cpp" />
+    <ClCompile Include="TimeManager.cpp" />
     <ClCompile Include="Item.cpp" />
-    <ClCompile Include="Manager.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    <ClCompile Include="MapManager.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="MapManager.cpp" />
     <ClCompile Include="Type.cpp" />
     <ClCompile Include="UpdateManager.cpp" />
     <ClCompile Include="ZeldaCore.cpp" />
@@ -35,10 +39,16 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h" />
-    <ClInclude Include="GameTimer.h" />
+    <ClInclude Include="Entity.h" />
+    <ClInclude Include="EntityManager.h" />
+    <ClInclude Include="GameManager.h" />
     <ClInclude Include="Item.h" />
-    <ClInclude Include="Manager.h" />
+    <ClInclude Include="InputManager.h" />
+    <ClInclude Include="MapManager.h" />
+    <ClInclude Include="TileCollector.h" />
+    <ClInclude Include="TimeManager.h" />
     <ClInclude Include="Type.h" />
+    <ClInclude Include="UpdateManager.h" />
     <ClInclude Include="ZeldaCore.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

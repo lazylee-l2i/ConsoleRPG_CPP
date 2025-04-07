@@ -1,143 +1,122 @@
-#include "ZeldaCore.h"
-#include "Manager.h"
+#include "UpdateManager.h"
 
-DIRECTION UpdateManager::PlayerInput()
+
+void UpdateManager::UpdateMonsters()
 {
-	char _c = static_cast<char>(_getch());
-	switch (_c)
-	{
-	case 'w':
-		return DIRECTION::UP;
-	case 's':
-		return DIRECTION::DOWN;
-	case 'a':
-		return DIRECTION::LEFT;
-	case 'd':
-		return DIRECTION::RIGHT;
-	case 'q':
-		return DIRECTION::QUIT;
-	case ' ':
-		return DIRECTION::ATTACKCALL;
-	}
+    auto& entities = GET_SINGLE(EntityManager)->GetAllEntities();
+
+    for (auto& entity : entities)
+    {
+        if (entity->GetType() != EEntityType::MONSTER)
+            continue;
+
+        Pos before = entity->GetPos();
+        entity->Update();
+        Pos after = entity->GetPos();
+        entity->SetPos(before);
+
+        EMapTileType tile = GET_SINGLE(MapManager)->GetTile(after.x, after.y);
+        auto target = GET_SINGLE(EntityManager)->FindEntityByPos(after);
+
+
+        // 벽 또는 출구는 이동 불가 → 롤백
+        if (tile == EMapTileType::WALL || tile == EMapTileType::EXIT)
+        {
+            entity->SetPos(before);
+            continue;
+        }
+
+        if (target && target->GetType() == EEntityType::MONSTER)
+        {
+            continue;
+        }
+
+        // 해당 위치에 다른 Entity가 있는지 확인
+        if (target && target->GetType() == EEntityType::PLAYER)
+        {
+            entity->SetPos(after); // 이동
+            entity->Interact(target.get()); // 상호작용
+            continue;
+        }
+
+        // 그 외는 이동만 진행
+        entity->SetPos(after);
+    }
 }
 
 
-void UpdateManager::PlayerUpdate()
+void UpdateManager::UpdatePlayer()
 {
-	shared_ptr<Actor> user = GameManager::GetInstance().GetPlayer();
-	try
-	{
-		if (user == nullptr)
-		{
-			throw runtime_error("User가 없음");
-		}
+    auto player = GET_SINGLE(EntityManager)->GetPlayer();
+    auto& entities = GET_SINGLE(EntityManager)->GetAllEntities();
 
-	}
-	catch (const runtime_error& e)
-	{
-		std::cerr << "Error: " << e.what() << std::endl;
-	}
+    if (GET_SINGLE(GameManager)->GetAttackFlag())
+    {
+        Pos attackPos = player->GetAttackPos();
 
-	DIRECTION dir = this->PlayerInput();
+        for (auto iter = entities.begin(); iter != entities.end(); ++iter)
+        {
+            if (iter->get()->GetPos() == attackPos && iter->get()->GetType() == EEntityType::MONSTER)
+            {
+                player->Attack(iter->get());
+                entities.erase(iter);
+                GET_SINGLE(GameManager)->ChangeAttackFlag();
+                break;
+            }
+        }
+    }
 
-	Pos currentPos = user->GetPos();
+    Pos before = player->GetPos();
+    player->Update();
+    Pos after = player->GetPos();
 
-	switch (dir)
-	{
-	case DIRECTION::UP:
-		currentPos.y -= 1;
-		break;
-	case DIRECTION::DOWN:
-		currentPos.y += 1;
-		break;
-	case DIRECTION::LEFT:
-		currentPos.x -= 1;
-		break;
-	case DIRECTION::RIGHT:
-		currentPos.x += 1;
-		break;
-	case DIRECTION::QUIT:
-		GameManager::GetInstance().ChangeGameState();
-		return;
-	case DIRECTION::ATTACKCALL:
-		// 어택 관련 InteractionManager 호출하기
-		MapManager::GetInstance().SetAttackCall(true);
-		InteractionManager::GetInstance().UserAttackMonster();
-		return;
-	}
+    EMapTileType tile = GET_SINGLE(MapManager)->GetTile(after.x, after.y);
 
-	if (MapManager::GetInstance().EntityObstacleCheck(currentPos, user->GetName()))
-	{
-		if (MapManager::GetInstance().MapDataCheck(currentPos) != MAPVALUETYPE::EXIT)
-		{
-			user->SetPos(currentPos);
-			user->SetDirection(dir);
-		}
-	}
-	InteractionManager::GetInstance().CheckUserCollision();
-
-}
-
-void UpdateManager::PlayerUpdateLoop(bool* gamestate, double frametick)
-{
-	while (*gamestate)
-	{
-		this->PlayerUpdate();
-		Sleep(frametick);
-	}
-}
-
-void UpdateManager::NPCUpdate()
-{
-	shared_ptr<Actor> npc = GameManager::GetInstance().GetNPC();
-
-	// NPC는 없을수도 있으므로 그냥 에러처리 없음
-	if (npc == nullptr)
-		return;
-
-	// 그리고 현재 프로젝트에선 NPC는 이동을 하지 않으므로
-	// 추후 코드는 이 아래에 작성할 것
-}
+    // =========== 중요 =================
+    // 걸리는게 있다면 player->SetPos(before)
+    // 걸리는게 없다면 그냥 무시하고 진행
 
 
-void UpdateManager::MonsterUpdate()
-{
-	vector<shared_ptr<Actor>> monsters = GameManager::GetInstance().GetMonster();
+    // 벽과 출입구에 대한 조사(콜리전 체크)
+    if (tile == EMapTileType::EXIT)
+    {
+        GET_SINGLE(GameManager)->PlayerMoveMap();
+    }
+    else if (tile == EMapTileType::WALL)
+    {
+        player->SetPos(before);
+        return;
+    }
+    // 아이템에 대한 조사
+    for (auto iter = entities.begin(); iter != entities.end();)
+    {
+        auto& entity = *iter;
 
-	// 마찮가지로 유저가 죽였거나 처음 스폰에는 몬스터가 없으므로 그냥 에러처리 생략
-	if (monsters.size() == 0)
-		return;
+        Pos entityPos = iter->get()->GetPos();
+        if (after != entityPos)
+        { 
+            ++iter;
+            continue;
+        }
 
-	for (shared_ptr<Actor> monster : monsters)
-	{
-		// 몹은 랜덤하게 움직이므로 랜덤으로 방향값 받아옴
-		DIRECTION dir = static_cast<DIRECTION>(iRandNum(4));
-		monster->SetDirection(dir);
-		Pos currentPos = monster->GetPos();
+        EEntityType type = entity->GetType();
 
-		switch (dir)
-		{
-		case DIRECTION::UP:
-			currentPos.y -= 1;
-			break;
-		case DIRECTION::DOWN:
-			currentPos.y += 1;
-			break;
-		case DIRECTION::LEFT:
-			currentPos.x -= 1;
-			break;
-		case DIRECTION::RIGHT:
-			currentPos.x += 1;
-			break;
-			// 몹이 게임 주체자가 아닌데 QUIT을 받았다간 큰일남
-			// 그래서 QUIT은 안전하게 지워줌(혹시 모르니까)
-		}
+        if (type == EEntityType::ITEM)
+        {
+            player->Interact(entity.get());
+            iter = entities.erase(iter);
+            return;
+        }
+        else if (type == EEntityType::MONSTER)
+        {
+            entity->Interact(player.get());
+            player->SetPos(before);
+            ++iter;
+            continue;
+        }
+        ++iter;
+        
+    }
 
-		if (MapManager::GetInstance().EntityObstacleCheck(currentPos, monster->GetName()))
-		{
-			monster->SetPos(currentPos);
-			monster->SetDirection(dir);
-		}
-	}
 
 }

@@ -1,22 +1,31 @@
 #include "Item.h"
 
-Item::Item(int i, Pos deadPoint)
+Item::Item(EItemType type, Pos SpawnPoint)
 {
-	if(i == 1)
-	{ 
-		this->name = "heart";
-		this->iEffectValue = 3;
-		this->iStackSize = 0;
-		this->iStackCount = 0;
-		this->itemPos = deadPoint;
-	}
-	else if (i == 2)
+	switch (type)
 	{
-		this->name = "quest";
-		this->iEffectValue = 1;
-		this->iStackSize = 10;
-		this->iStackCount = 0;
-		this->itemPos = deadPoint;
+	case EItemType::HEART:
+		this->ItemType = EItemType::HEART;
+		break;
+	case EItemType::QUEST:
+		this->ItemType = EItemType::QUEST;
+		break;
+	case EItemType::UNDEFINE:
+		this->ItemType = EItemType::UNDEFINE;
+		break;
 	}
+	this->type = EEntityType::ITEM;
+	this->pos = SpawnPoint;
+}
+
+void Item::Update()
+{
+	// Item is only updated by player interaction
+}
+
+void Item::Interact(Entity* other)
+{
+	if (other->GetType() == EEntityType::MONSTER)
+		return;
 }
 

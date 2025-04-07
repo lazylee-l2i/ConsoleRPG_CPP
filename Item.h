@@ -1,24 +1,30 @@
 #pragma once
 #include <string>
+
+#include "Entity.h"
+#include "Actor.h"
 #include "Type.h"
 using namespace std;
 
-class Item
+class Entity;
+
+class Item : public Entity
 {
-	string name = "";
-	int iEffectValue = 0;
-	int iStackSize = 0;
-	int iStackCount = 0;
-	Pos itemPos;
+	EItemType ItemType = EItemType::UNDEFINE;
+	int ItemEffectValue = 0;
+	int ItemStackSize = 0;
+	int ItemCount = 0;
 public:
 	Item() {}
-	Item(int i, Pos deadPoint);
-	~Item() {}
-	Pos GetItemPos() { return this->itemPos; }
-	string GetItemName() { return this->name; }
-	int GetItemEffectValue() { return this->iEffectValue; }
-	int GetItemCount() { return this->iStackCount; }
-	int GetItemStackSize() { return this->iStackSize; }
+	Item(EItemType type, Pos SpawnPoint);
+	virtual ~Item() {}
 
-	void PlusItemCount() { this->iStackCount += 1; }
+	int GetItemCount() { return this->ItemCount; }
+	int GetItemStackSize() { return this->ItemStackSize; }
+	EItemType GetItemType() { return this->ItemType; }
+
+	void PlusItemCount() { this->ItemCount += 1; }
+
+	virtual void Update() override;
+	virtual void Interact(Entity* other) override;
 };

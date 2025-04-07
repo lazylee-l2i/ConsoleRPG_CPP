@@ -35,7 +35,7 @@ void InteractionManager::CheckUserCollision()
 			{
 				// WIP
 				int hp = player->GetHP();
-				hp = hp > 10 ? 10 : hp;
+				hp = hp > 10 ? 10 : hp + 2;
 				player->SetHP(hp);
 			}
 			else if (ItemName == "quest")

@@ -1,46 +1,40 @@
 #include "Actor.h"
 
-Pos Actor::GetDirectionByPos()
+const Pos Actor::GetDirectionByPos()
 {
-	switch (this->moveDirection)
+	switch (this->inputType)
 	{
-	case DIRECTION::UP:
+	case EInputType::UP:
 		return Pos(0, -1);
-	case DIRECTION::DOWN:
+	case EInputType::DOWN:
 		return Pos(0, 1);
-	case DIRECTION::LEFT:
+	case EInputType::LEFT:
 		return Pos(-1, 0);
-	case DIRECTION::RIGHT:
+	case EInputType::RIGHT:
 		return Pos(1, 0);
 	}
 	return Pos();
 }
 
+void Actor::Update()
+{
+}
+
+void Actor::Interact(Entity* other)
+{
+
+}
+
 Pos Actor::ActorKnockBack(Pos pos)
 {
-	if (pos == Pos(0, 0))
-	{
-		Pos KnockBackPos;
-		switch (this->moveDirection)
-		{
-		case DIRECTION::UP:
-			KnockBackPos = Pos(0, 1);
-			break;
-		case DIRECTION::DOWN:
-			KnockBackPos = Pos(0, -1);
-			break;
-		case DIRECTION::LEFT:
-			KnockBackPos = Pos(1, 0);
-			break;
-		case DIRECTION::RIGHT:
-			KnockBackPos = Pos(-1, 0);
-			break;
-		}
-		this->pos = this->pos + KnockBackPos;
-	}
-	else
-	{
-		this->pos = this->pos + pos;
-	}
+	this->PostPos = this->pos;
+	this->pos = this->pos + pos;
 	return this->pos;
 }
+
+void Actor::ActorRollBack()
+{
+	this->pos = this->pos - this->GetDirectionByPos();
+}
+
+
