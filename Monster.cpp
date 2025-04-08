@@ -12,11 +12,12 @@ Monster::Monster(int idx)
 	Pos tempPos = GET_SINGLE(InputManager)->GetRandomPos();
 	while (true)
 	{
-		if (GET_SINGLE(MapManager)->GetTile(tempPos.x, tempPos.y) == EMapTileType::WALL)
+		EMapTileType tiletype = GET_SINGLE(MapManager)->GetTile(tempPos.x, tempPos.y);
+		if (tiletype == EMapTileType::WALL || tiletype == EMapTileType::EXIT)
 		{
 			tempPos = GET_SINGLE(InputManager)->GetRandomPos();
 		}
-		else if(GET_SINGLE(MapManager)->GetTile(tempPos.x, tempPos.y) == EMapTileType::EXIT)
+		else if(tiletype == EMapTileType::PLAYER)
 		{
 			tempPos = GET_SINGLE(InputManager)->GetRandomPos();
 		}

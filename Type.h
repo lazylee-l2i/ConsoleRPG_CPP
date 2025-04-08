@@ -1,7 +1,7 @@
 #pragma once
 
-#define MAP_WIDTH 41
-#define MAP_HEIGHT 31
+#define MAP_WIDTH 31
+#define MAP_HEIGHT 21
 
 #define AUTO_MOB_GEN_PERCENT 1
 #define AUTO_OBSTACLE_PERCENT 10

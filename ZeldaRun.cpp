@@ -63,7 +63,7 @@ void Game()
         Sleep(GET_SINGLE(TimeManager)->GetFrameTickTime());
     }
 
-    playerthread.join();
+     playerthread.join();
     auto player = GET_SINGLE(EntityManager)->GetPlayer();
     if (player->GetQuestCount() >= 10)
     {

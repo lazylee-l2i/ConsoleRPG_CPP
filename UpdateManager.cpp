@@ -113,9 +113,6 @@ void UpdateManager::UpdatePlayer()
             ++iter;
             continue;
         }
-        ++iter;
-        
+        ++iter;   
     }
-
-
 }

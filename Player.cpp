@@ -16,11 +16,12 @@ void Player::Interact(Entity* other)
 	{
 		if (item->GetItemType() == EItemType::HEART)
 		{ 
-			if (this->ActorHP > 10)
+			int HP = this->ActorHP + 2;
+			if (HP > 10)
 			{
-				this->ActorHP = 10;
+				HP = 10;
 			}
-			this->SetHP(this->ActorHP + 2);
+			this->SetHP(HP);
 		}
 		else if (item->GetItemType() == EItemType::QUEST)
 		{
