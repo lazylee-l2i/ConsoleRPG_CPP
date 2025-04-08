@@ -59,7 +59,8 @@ void UpdateManager::UpdatePlayer()
             if (iter->get()->GetPos() == attackPos && iter->get()->GetType() == EEntityType::MONSTER)
             {
                 player->Attack(iter->get());
-                entities.erase(iter);
+                // 컨테이너가 변하면 iter가 무효화됨 그래서 Attack 내부에서 삭제하는걸로 변경
+                // entities.erase(iter);
                 break;
             }
         }
@@ -111,7 +112,7 @@ void UpdateManager::UpdatePlayer()
             entity->Interact(player.get());
             player->SetPos(before);
             ++iter;
-            continue;
+            return;
         }
         ++iter;
         

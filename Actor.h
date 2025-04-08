@@ -87,7 +87,11 @@ public:
 	// Unique Method
 	void Attack(Entity* other);
 	void SetAttackPos(EInputType dir);
+	void SetMaxHP(int n) { this->MaxHP = n; }
+	void EarnQuestItem() { this->QuestCount += 1; }
+
 	Pos GetAttackPos();
+	int GetMaxHP() { return this->MaxHP; }
 	int GetQuestCount() { return this->QuestCount; }
 };
 

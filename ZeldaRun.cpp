@@ -5,9 +5,7 @@ using namespace std;
 
 void Debug()
 {
-    // 초기화
     
-
     auto entityManager = GET_SINGLE(EntityManager);
 
     // 엔티티 생성
@@ -15,30 +13,7 @@ void Debug()
     entityManager->CreateEntity(EEntityType::MONSTER);
     entityManager->CreateEntity(EEntityType::ITEM, Pos(3, 3));
 
-    // 루프
-    for (int i = 0; i < 10; ++i)
-    {
-        
-
-        // 플레이어 이동 (테스트용)
-        auto player = dynamic_pointer_cast<Player>(entityManager->FindEntityByName("Player"));
-        if (player)
-        {
-            player->Move(); // 내부에서 SetPos() 처리
-            system("cls");
-        }
-        for (auto& entity : GET_SINGLE(EntityManager)->GetAllEntities())
-        {
-            if (Monster* monster = dynamic_cast<Monster*>(entity.get()))
-            {
-                monster->Move();
-            }
-        }
-
-        // 디버그 출력
-        entityManager->DebugPrintEntities();
-        
-    }
+    
 }
 
 void Init()

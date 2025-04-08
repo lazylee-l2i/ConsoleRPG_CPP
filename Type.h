@@ -3,8 +3,8 @@
 #define MAP_WIDTH 21
 #define MAP_HEIGHT 11
 
-#define AUTO_M_REGEN_NUM 4
-
+#define AUTO_MOB_GEN_PERCENT 1
+#define AUTO_OTC_GEN_PERCENT 10
 
 
 enum class EInputType
@@ -17,15 +17,6 @@ enum class EInputType
 	ATTACKCALL,
 	UNDEFINE
 };
-
-#define TILE_ROAD 0
-#define TILE_WALL 1
-#define TILE_EXIT 2
-#define TILE_ATTACK 3
-#define TILE_PLAYER 4
-#define TILE_MONSTER 5
-#define TILE_HEART 6
-#define TILE_QUEST 7
 
 enum class EMapTileType
 {
@@ -53,6 +44,8 @@ enum class EItemType
 {
 	HEART,
 	QUEST,
+	MAXHEART,
+	BOMB,
 	UNDEFINE
 };
 

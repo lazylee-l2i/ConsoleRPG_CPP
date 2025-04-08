@@ -95,7 +95,7 @@ void Player::Attack(Entity* other)
 		int remainHP = monster->GetHP() - this->ActorAttack;
 		if (remainHP <= 0)
 		{
-			//GET_SINGLE(EntityManager)->RemoveEntityByName(other->GetName());
+			GET_SINGLE(EntityManager)->RemoveEntityByName(other->GetName());
 			GET_SINGLE(EntityManager)->CreateEntity(EEntityType::ITEM, spawnPoint);
 		}
 		else

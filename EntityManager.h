@@ -7,6 +7,7 @@
 #include <memory>
 
 class Player;
+class Item;
 
 class EntityManager
 {
@@ -18,6 +19,8 @@ private:
 	int monsterIndex = 0;
 public:
 	void CreateEntity(EEntityType type, const Pos& pos = Pos(0,0));
+	shared_ptr<Item> CreateRandomItem(const Pos& pos);
+
 	void RemoveEntityByName(const string& name);
 	void RemoveAllByType(EEntityType type);
 	void RemoveByPos(Pos pos);

@@ -10,6 +10,7 @@ class Entity;
 
 class Item : public Entity
 {
+protected:
 	EItemType ItemType = EItemType::UNDEFINE;
 	int ItemEffectValue = 0;
 	int ItemStackSize = 0;
@@ -24,6 +25,33 @@ public:
 	EItemType GetItemType() { return this->ItemType; }
 
 	void PlusItemCount() { this->ItemCount += 1; }
+
+	virtual void Update() override;
+	virtual void Interact(Entity* other) override;
+};
+
+class Heart : public Item
+{
+public:
+	Heart(Pos SpawnPoint);
+
+	virtual void Update() override;
+	virtual void Interact(Entity* other) override;
+};
+
+class Quest : public Item
+{
+public:
+	Quest(Pos SpawnPoint);
+
+	virtual void Update() override;
+	virtual void Interact(Entity* other) override;
+};
+
+class MaxHeart : public Item
+{
+public:
+	MaxHeart(Pos SpawnPoint);
 
 	virtual void Update() override;
 	virtual void Interact(Entity* other) override;

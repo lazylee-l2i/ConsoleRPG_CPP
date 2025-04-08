@@ -11,7 +11,9 @@ void GameManager::PlayerMoveMap()
     Pos after(MAP_WIDTH - before.x - 1, MAP_HEIGHT - before.y - 1);
     player->SetPos(after);
 
-    for (int i = 0; i < AUTO_M_REGEN_NUM; i++)
+    int MOB_GEN_NUM = MAP_WIDTH * MAP_HEIGHT * 0.01 * AUTO_MOB_GEN_PERCENT;
+
+    for (int i = 0; i < MOB_GEN_NUM; i++)
     {
         Pos rand = GET_SINGLE(MapManager)->GetRandomEmptyPos();
         GET_SINGLE(EntityManager)->CreateEntity(EEntityType::MONSTER, rand);

@@ -46,7 +46,7 @@ int InputManager::GetRandomNum(int n)
 Pos InputManager::GetRandomPos()
 {
 	Pos pos;
-	pos.x = this->GetRandomNum(10);
-	pos.y = this->GetRandomNum(10);
+	pos.x = this->GetRandomNum(MAP_WIDTH);
+	pos.y = this->GetRandomNum(MAP_HEIGHT);
 	return pos;
 }

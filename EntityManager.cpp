@@ -22,8 +22,8 @@ void EntityManager::CreateEntity(EEntityType type, const Pos& pos)
 		}
 	case EEntityType::ITEM:
 		{
-			EItemType itemType = (rand() % 100 < 30) ? EItemType::QUEST : EItemType::HEART;
-			shared_ptr<Item> item = make_shared<Item>(itemType, pos);
+			this->RemoveByPos(pos);
+			shared_ptr<Item> item = CreateRandomItem(pos);
 			ActiveEntities.push_back(item);
 			break;
 		}
@@ -38,6 +38,25 @@ void EntityManager::CreateEntity(EEntityType type, const Pos& pos)
 			break;
 		}
 	}
+}
+
+shared_ptr<Item> EntityManager::CreateRandomItem(const Pos& pos)
+{
+	int random = rand() % 100;
+	shared_ptr<Item> item = nullptr;
+	if (random < 50)
+	{
+		item = make_shared<Heart>(pos);
+	}
+	else if (random >= 50 && random < 70)
+	{
+		item = make_shared<Quest>(pos);
+	}
+	else if (random >= 70 && random < 80)
+	{
+		item = make_shared<MaxHeart>(pos);
+	}
+	return item;
 }
 
 void EntityManager::RemoveEntityByName(const string& name)
