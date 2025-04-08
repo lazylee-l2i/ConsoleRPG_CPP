@@ -1,9 +1,12 @@
 #pragma once
 
-#define MAP_WIDTH 21
-#define MAP_HEIGHT 11
+#define MAP_WIDTH 41
+#define MAP_HEIGHT 31
 
-#define AUTO_M_REGEN_NUM 4
+#define AUTO_MOB_GEN_PERCENT 1
+#define AUTO_OBSTACLE_PERCENT 10
+
+#define GAME_FPS 20
 
 
 

@@ -146,7 +146,7 @@ EMapTileType MapManager::GetTile(int x, int y)
 void MapManager::GenObstacle(int percentage)
 {
     int totalCells = MAP_WIDTH * MAP_HEIGHT;
-    int numObstacles = totalCells * percentage / 100;   
+    int numObstacles = totalCells * AUTO_OBSTACLE_PERCENT / 100;   
 
     while (numObstacles > 0)
     {

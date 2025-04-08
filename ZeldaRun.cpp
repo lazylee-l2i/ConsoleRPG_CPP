@@ -1,60 +1,23 @@
 #include "ZeldaCore.h"
 
+#include <Windows.h>
 #include <thread>
 using namespace std;
 
-void Debug()
-{
-    // 초기화
-    
-
-    auto entityManager = GET_SINGLE(EntityManager);
-
-    // 엔티티 생성
-    entityManager->CreateEntity(EEntityType::PLAYER, Pos(2, 2));
-    entityManager->CreateEntity(EEntityType::MONSTER);
-    entityManager->CreateEntity(EEntityType::ITEM, Pos(3, 3));
-
-    // 루프
-    for (int i = 0; i < 10; ++i)
-    {
-        
-
-        // 플레이어 이동 (테스트용)
-        auto player = dynamic_pointer_cast<Player>(entityManager->FindEntityByName("Player"));
-        if (player)
-        {
-            player->Move(); // 내부에서 SetPos() 처리
-            system("cls");
-        }
-        for (auto& entity : GET_SINGLE(EntityManager)->GetAllEntities())
-        {
-            if (Monster* monster = dynamic_cast<Monster*>(entity.get()))
-            {
-                monster->Move();
-            }
-        }
-
-        // 디버그 출력
-        entityManager->DebugPrintEntities();
-        
-    }
-}
 
 void Init()
 {
     // 초기화
     srand(static_cast<unsigned int>(time(0)));
-
     auto entityManager = GET_SINGLE(EntityManager);
 
     // 엔티티 생성
-    entityManager->CreateEntity(EEntityType::PLAYER, Pos(2, 2));
+    entityManager->CreateEntity(EEntityType::PLAYER, Pos(MAP_WIDTH / 2, MAP_HEIGHT / 2));
 
     GET_SINGLE(MapManager)->Init();
     GET_SINGLE(GameManager)->Init();
 
-    GET_SINGLE(TimeManager)->SetFrameTick(20);
+    GET_SINGLE(TimeManager)->SetFrameTick(GAME_FPS);
     GET_SINGLE(TimeManager)->LoopStart();
 }
 
