@@ -112,10 +112,11 @@ EInputType EntityManager::GetPlayerDirecion()
 	{
 		if (entity->GetType() == EEntityType::PLAYER)
 		{
-			Player* player = dynamic_cast<Player*>(entity.get());
+			Player* player = static_cast<Player*>(entity.get());
 			return player->GetDirection();
 		}
 	}
+	return EInputType::UNDEFINE;
 }
 
 shared_ptr<Player> EntityManager::GetPlayer()

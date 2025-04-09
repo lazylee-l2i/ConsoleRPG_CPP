@@ -3,7 +3,7 @@
 const vector<pair<EMapTileType, Pos>> TileCollector::CollectTiles() const
 {
     vector<pair<EMapTileType, Pos>> TileInfo;
-    auto Entities = GET_SINGLE(EntityManager)->GetAllEntities();
+    auto Entities = GET_SINGLE(EntityManager).GetAllEntities();
     for (const auto& entity : Entities)
     {
         EEntityType Etype = entity->GetType();
@@ -14,9 +14,9 @@ const vector<pair<EMapTileType, Pos>> TileCollector::CollectTiles() const
                 TileInfo.push_back({ EMapTileType::PLAYER, entity->GetPos() });
 
                 // When Player Attack, Insert Attack Tile
-                if (GET_SINGLE(InputManager)->IsAttackKeyPressed())
+                if (GET_SINGLE(InputManager).IsAttackKeyPressed())
                 {
-                    Player* player = dynamic_cast<Player*>(entity.get());
+                    Player* player = static_cast<Player*>(entity.get());
                     Pos attackPos = player->GetAttackPos();
                     TileInfo.push_back({ EMapTileType::ATTACK, attackPos });
                 }
@@ -29,7 +29,7 @@ const vector<pair<EMapTileType, Pos>> TileCollector::CollectTiles() const
             }
             case EEntityType::ITEM:
             {
-                Item* item = dynamic_cast<Item*>(entity.get());
+                Item* item = static_cast<Item*>(entity.get());
                 EItemType Itype = item->GetItemType();
                 switch (Itype)
                 {

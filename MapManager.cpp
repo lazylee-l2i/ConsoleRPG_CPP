@@ -19,6 +19,7 @@ Pos MapManager::GetRandomEmptyPos()
         Pos pos(n % MAP_WIDTH, n / MAP_WIDTH);
         return pos;
     }
+    return Pos();
 }
 
 void MapManager::MoveCursorToTopLeft()
@@ -40,8 +41,8 @@ void MapManager::ShowMap()
     }
 
     string _map = "";
-    int playerHP = GET_SINGLE(EntityManager)->GetPlayer()->GetHP();
-    int playerQuestCount = GET_SINGLE(EntityManager)->GetPlayer()->GetQuestCount();
+    int playerHP = GET_SINGLE(EntityManager).GetPlayer()->GetHP();
+    int playerQuestCount = GET_SINGLE(EntityManager).GetPlayer()->GetQuestCount();
 
 
     for (int y = 0; y < MAP_HEIGHT; y++)
@@ -72,7 +73,7 @@ void MapManager::ShowMap()
                 _map += "¢Ý";
                 break;
             case EMapTileType::ATTACK:
-                EInputType dir = GET_SINGLE(EntityManager)->GetPlayerDirecion();
+                EInputType dir = GET_SINGLE(EntityManager).GetPlayerDirecion();
                 switch (dir)
                 {
                 case EInputType::UP:
@@ -88,7 +89,7 @@ void MapManager::ShowMap()
                     _map += "¢¹";
                     break;
                 }
-                GET_SINGLE(InputManager)->AttackKeyRelease();
+                GET_SINGLE(InputManager).AttackKeyRelease();
                 break;
             }
         }

@@ -12,7 +12,7 @@ void Player::Interact(Entity* other)
 {
 	EEntityType type = other->GetType();
 
-	if (Item* item = dynamic_cast<Item*>(other))
+	if (Item* item = static_cast<Item*>(other))
 	{
 		if (item->GetItemType() == EItemType::HEART)
 		{ 
@@ -27,10 +27,10 @@ void Player::Interact(Entity* other)
 			this->QuestCount += 1;
 			if (this->QuestCount == 10)
 			{ 
-				GET_SINGLE(GameManager)->ChangeGameLoopFlag();
+				GET_SINGLE(GameManager).ChangeGameLoopFlag();
 			}
 		}
-		/*GET_SINGLE(EntityManager)->RemoveByPos(item->GetPos());*/
+		/*GET_SINGLE(EntityManager).RemoveByPos(item->GetPos());*/
 	}
 	// NPC Interact Here
 }
@@ -38,7 +38,7 @@ void Player::Interact(Entity* other)
 void Player::Move()
 {
 	this->PostPos = this->pos;
-	EInputType DirCommand = GET_SINGLE(InputManager)->PlayerInput();
+	EInputType DirCommand = GET_SINGLE(InputManager).PlayerInput();
 	switch (DirCommand)
 	{
 	case EInputType::UP:
@@ -61,7 +61,7 @@ void Player::Move()
 		this->SetAttackPos(DirCommand);
 		break;
 	case EInputType::QUIT:
-		GET_SINGLE(GameManager)->ChangeGameLoopFlag();
+		GET_SINGLE(GameManager).ChangeGameLoopFlag();
 		break;
 	}
 	
@@ -88,15 +88,15 @@ void Player::SetAttackPos(EInputType dir)
 
 void Player::Attack(Entity* other)
 {
-	if (Monster* monster = dynamic_cast<Monster*>(other))
+	if (Monster* monster = static_cast<Monster*>(other))
 	{
 		Pos spawnPoint = monster->GetPos();
 		monster->ActorKnockBack(this->GetDirectionByPos());
 		int remainHP = monster->GetHP() - this->ActorAttack;
 		if (remainHP <= 0)
 		{
-			GET_SINGLE(EntityManager)->RemoveEntityByName(other->GetName());
-			GET_SINGLE(EntityManager)->CreateEntity(EEntityType::ITEM, spawnPoint);
+			GET_SINGLE(EntityManager).RemoveEntityByName(other->GetName());
+			GET_SINGLE(EntityManager).CreateEntity(EEntityType::ITEM, spawnPoint);
 		}
 		else
 		{

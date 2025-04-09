@@ -3,60 +3,52 @@
 #include <thread>
 using namespace std;
 
-void Debug()
-{
-    
-    auto entityManager = GET_SINGLE(EntityManager);
 
-    // 엔티티 생성
-    entityManager->CreateEntity(EEntityType::PLAYER, Pos(2, 2));
-    entityManager->CreateEntity(EEntityType::MONSTER);
-    entityManager->CreateEntity(EEntityType::ITEM, Pos(3, 3));
-
-    
-}
 
 void Init()
 {
     // 초기화
     srand(static_cast<unsigned int>(time(0)));
 
-    auto entityManager = GET_SINGLE(EntityManager);
-
     // 엔티티 생성
-    entityManager->CreateEntity(EEntityType::PLAYER, Pos(2, 2));
+    GET_SINGLE(EntityManager).CreateEntity(EEntityType::PLAYER, Pos(2, 2));
 
-    GET_SINGLE(MapManager)->Init();
-    GET_SINGLE(GameManager)->Init();
+    GET_SINGLE(MapManager).Init();
+    GET_SINGLE(GameManager).Init();
 
-    GET_SINGLE(TimeManager)->SetFrameTick(20);
-    GET_SINGLE(TimeManager)->LoopStart();
+    GET_SINGLE(TimeManager).SetFrameTick(20);
+    GET_SINGLE(TimeManager).LoopStart();
 }
 
 
 void Update()
 {
-    if (GET_SINGLE(TimeManager)->GetFrameCount() > 10)
+    if (GET_SINGLE(TimeManager).GetFrameCount() > 10)
     {
-        GET_SINGLE(UpdateManager)->UpdateMonsters();
-        GET_SINGLE(TimeManager)->LoopStart();
+        GET_SINGLE(UpdateManager).UpdateMonsters();
+        GET_SINGLE(TimeManager).LoopStart();
     }
     
 }
 
 void PlayerUpdate()
 {
-    while (GET_SINGLE(GameManager)->GetGameLoopFlag())
+    while (GET_SINGLE(GameManager).GetGameLoopFlag())
     {
-        GET_SINGLE(UpdateManager)->UpdatePlayer();
-        Sleep(GET_SINGLE(TimeManager)->GetFrameTickTime());
+        GET_SINGLE(UpdateManager).UpdatePlayer();
+        Sleep(static_cast<DWORD>(GET_SINGLE(TimeManager).GetFrameTickTime()));
     }
 }
 
 
 void Render()
 {
-    GET_SINGLE(MapManager)->ShowMap();
+    GET_SINGLE(MapManager).ShowMap();
+}
+
+void EndGame()
+{
+
 }
 
 void Game()
@@ -67,16 +59,16 @@ void Game()
 
     thread playerthread(PlayerUpdate);
 
-    while (GET_SINGLE(GameManager)->GetGameLoopFlag())
+    while (GET_SINGLE(GameManager).GetGameLoopFlag())
     {
         Update();
         Render();
 
-        Sleep(GET_SINGLE(TimeManager)->GetFrameTickTime());
+        Sleep(static_cast<DWORD>(GET_SINGLE(TimeManager).GetFrameTickTime()));
     }
 
     playerthread.join();
-    auto player = GET_SINGLE(EntityManager)->GetPlayer();
+    auto player = GET_SINGLE(EntityManager).GetPlayer();
     if (player->GetQuestCount() >= 10)
     {
         cout << "Player Win." << endl;

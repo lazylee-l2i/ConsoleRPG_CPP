@@ -9,16 +9,16 @@ Monster::Monster(int idx)
 	this->ActorAttack = 1;
 	this->ActorHP = 5;
 	this->MaxHP = 0;
-	Pos tempPos = GET_SINGLE(InputManager)->GetRandomPos();
+	Pos tempPos = GET_SINGLE(InputManager).GetRandomPos();
 	while (true)
 	{
-		if (GET_SINGLE(MapManager)->GetTile(tempPos.x, tempPos.y) == EMapTileType::WALL)
+		if (GET_SINGLE(MapManager).GetTile(tempPos.x, tempPos.y) == EMapTileType::WALL)
 		{
-			tempPos = GET_SINGLE(InputManager)->GetRandomPos();
+			tempPos = GET_SINGLE(InputManager).GetRandomPos();
 		}
-		else if(GET_SINGLE(MapManager)->GetTile(tempPos.x, tempPos.y) == EMapTileType::EXIT)
+		else if(GET_SINGLE(MapManager).GetTile(tempPos.x, tempPos.y) == EMapTileType::EXIT)
 		{
-			tempPos = GET_SINGLE(InputManager)->GetRandomPos();
+			tempPos = GET_SINGLE(InputManager).GetRandomPos();
 		}
 		else
 		{
@@ -42,14 +42,14 @@ void Monster::Interact(Entity* other)
 	EEntityType type = other->GetType();
 	if (type == EEntityType::PLAYER)
 	{
-		Player* player = dynamic_cast<Player*>(other);
+		Player* player = static_cast<Player*>(other);
 		player->ActorRollBack();
 		int remainHP = player->GetHP() - this->ActorAttack;
 		remainHP = remainHP <= 0 ? 0 : remainHP;
 		player->SetHP(remainHP);
 		if (remainHP <= 0)
 		{
-			GET_SINGLE(GameManager)->ChangeGameLoopFlag();
+			GET_SINGLE(GameManager).ChangeGameLoopFlag();
 		}
 	}
 }
@@ -57,7 +57,7 @@ void Monster::Interact(Entity* other)
 void Monster::Move()
 {
 	this->PostPos = this->pos;
-	switch (GET_SINGLE(InputManager)->MonsterInput())
+	switch (GET_SINGLE(InputManager).MonsterInput())
 	{
 	case EInputType::UP:
 		this->pos.y--;

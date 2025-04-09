@@ -19,7 +19,7 @@ void TimeManager::SetFrameTick(int Hz)
 
 int TimeManager::GetFrameCount()
 {
-	int count = (static_cast<double>(clock()) - this->dStartLoop) / this->dFrameTick;
+	int count = static_cast<int>(static_cast<double>(clock()) - this->dStartLoop) / this->dFrameTick;
 	return count;
 }
 

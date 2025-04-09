@@ -3,7 +3,7 @@
 
 void UpdateManager::UpdateMonsters()
 {
-    auto& entities = GET_SINGLE(EntityManager)->GetAllEntities();
+    auto& entities = GET_SINGLE(EntityManager).GetAllEntities();
 
     for (auto& entity : entities)
     {
@@ -15,8 +15,8 @@ void UpdateManager::UpdateMonsters()
         Pos after = entity->GetPos();
         entity->SetPos(before);
 
-        EMapTileType tile = GET_SINGLE(MapManager)->GetTile(after.x, after.y);
-        auto target = GET_SINGLE(EntityManager)->FindEntityByPos(after);
+        EMapTileType tile = GET_SINGLE(MapManager).GetTile(after.x, after.y);
+        auto target = GET_SINGLE(EntityManager).FindEntityByPos(after);
 
 
         // 벽 또는 출구는 이동 불가 → 롤백
@@ -47,10 +47,10 @@ void UpdateManager::UpdateMonsters()
 
 void UpdateManager::UpdatePlayer()
 {
-    auto player = GET_SINGLE(EntityManager)->GetPlayer();
-    auto& entities = GET_SINGLE(EntityManager)->GetAllEntities();
+    auto player = GET_SINGLE(EntityManager).GetPlayer();
+    auto& entities = GET_SINGLE(EntityManager).GetAllEntities();
 
-    if (GET_SINGLE(InputManager)->IsAttackKeyPressed())
+    if (GET_SINGLE(InputManager).IsAttackKeyPressed())
     {
         Pos attackPos = player->GetAttackPos();
 
@@ -70,7 +70,7 @@ void UpdateManager::UpdatePlayer()
     player->Update();
     Pos after = player->GetPos();
 
-    EMapTileType tile = GET_SINGLE(MapManager)->GetTile(after.x, after.y);
+    EMapTileType tile = GET_SINGLE(MapManager).GetTile(after.x, after.y);
 
     // =========== 중요 =================
     // 걸리는게 있다면 player->SetPos(before)
@@ -80,7 +80,7 @@ void UpdateManager::UpdatePlayer()
     // 벽과 출입구에 대한 조사(콜리전 체크)
     if (tile == EMapTileType::EXIT)
     {
-        GET_SINGLE(GameManager)->PlayerMoveMap();
+        GET_SINGLE(GameManager).PlayerMoveMap();
     }
     else if (tile == EMapTileType::WALL)
     {

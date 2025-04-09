@@ -50,8 +50,8 @@ Pos& Pos::operator=(const Pos& other)
 
 int GetLengthAboutTwoPoint(const Pos& left, const Pos& right)
 {
-	int x = pow(right.x - left.x, 2);
-	int y = pow(right.y - left.y, 2);
+	int x = static_cast<int>(pow(right.x - left.x, 2));
+	int y = static_cast<int>(pow(right.y - left.y, 2));
 	int result = x + y;
 	// 이 메소드는 그냥 두 점 사이의 거리가 1일때가 중요해서
 	// sqrt는 굳이 안넣음.

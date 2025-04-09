@@ -6,18 +6,6 @@
 #define AUTO_MOB_GEN_PERCENT 1
 #define AUTO_OTC_GEN_PERCENT 10
 
-
-enum class EInputType
-{
-	UP,
-	DOWN,
-	LEFT,
-	RIGHT,
-	QUIT,
-	ATTACKCALL,
-	UNDEFINE
-};
-
 enum class EMapTileType
 {
 	ROAD,
@@ -31,6 +19,28 @@ enum class EMapTileType
 	UNDEFINE
 };
 
+enum class EItemType
+{
+	HEART,
+	QUEST,
+	MAXHEART,
+	BOMB,
+	UNDEFINE
+};
+
+enum class EInputType
+{
+	UP,
+	DOWN,
+	LEFT,
+	RIGHT,
+	QUIT,
+	ATTACKCALL,
+	UNDEFINE
+};
+
+
+
 enum class EEntityType
 {
 	PLAYER,
@@ -40,14 +50,7 @@ enum class EEntityType
 	UNDEFINE
 };
 
-enum class EItemType
-{
-	HEART,
-	QUEST,
-	MAXHEART,
-	BOMB,
-	UNDEFINE
-};
+
 
 struct Pos
 {
@@ -68,15 +71,18 @@ bool operator!=(const Pos& left, const Pos& right);
 
 int GetLengthAboutTwoPoint(const Pos& left, const Pos& right);
 
-#define DECLARE_SINGLE(classname)		\
-private:								\
-	classname() {}						\
-public:									\
-	static classname* GetInstance()		\
-	{									\
-		static classname s_instance;	\
-		return &s_instance;				\
-	}									
+#define DECLARE_SINGLE(classname)					\
+private:											\
+	classname() {}									\
+	classname(const classname& ref)	{}				\
+	classname& operator=(const classname& ref) {}	\
+	~classname() {}									\
+public:												\
+	static classname& GetInstance()					\
+	{												\
+		static classname s_instance;				\
+		return s_instance;							\
+	}														
 
 
 #define GET_SINGLE(classname) classname::GetInstance()

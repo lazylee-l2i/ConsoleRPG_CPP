@@ -1,17 +1,19 @@
 #pragma once
 #include <vector>
 
+#include "Type.h"
+
 #include "Entity.h"
 #include "EntityManager.h"
 #include "TileCollector.h"
 #include "GameManager.h"
 
 #include "Item.h"
-#include "Type.h"
+
 
 class MapManager
 {
-    DECLARE_SINGLE(MapManager);
+    DECLARE_SINGLE(MapManager)
 
 private:
     std::vector<int> DefaultMap = vector<int>(MAP_WIDTH * MAP_HEIGHT, 0);
