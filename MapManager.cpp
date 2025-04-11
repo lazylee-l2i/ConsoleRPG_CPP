@@ -41,67 +41,36 @@ void MapManager::ShowMap()
     }
 
     string _map = "";
-    int playerHP = GET_SINGLE(EntityManager).GetPlayer()->GetHP();
-    int playerQuestCount = GET_SINGLE(EntityManager).GetPlayer()->GetQuestCount();
-
 
     for (int y = 0; y < MAP_HEIGHT; y++)
     {
         for (int x = 0; x < MAP_WIDTH; x++)
         {
-            switch (static_cast<EMapTileType>(showingMap[y*MAP_WIDTH + x]))
+            if (showingMap[y * MAP_WIDTH + x] == static_cast<int>(EMapTileType::ATTACK))
             {
-            case EMapTileType::ROAD:
-                _map += "  ";
-                break;
-            case EMapTileType::WALL:
-                _map += "¡á";
-                break;
-            case EMapTileType::EXIT:
-                _map += "¢Ë";
-                break;
-            case EMapTileType::PLAYER:
-                _map += "¡Ù";
-                break;
-            case EMapTileType::MONSTER:
-                _map += "¡Þ";
-                break;
-            case EMapTileType::HEART:
-                _map += "¢¾";
-                break;
-            case EMapTileType::QUEST:
-                _map += "¢Ý";
-                break;
-            case EMapTileType::ATTACK:
                 EInputType dir = GET_SINGLE(EntityManager).GetPlayerDirecion();
-                switch (dir)
-                {
-                case EInputType::UP:
-                    _map += "¡â";
-                    break;
-                case EInputType::DOWN:
-                    _map += "¡ä";
-                    break;
-                case EInputType::LEFT:
-                    _map += "¢·";
-                    break;
-                case EInputType::RIGHT:
-                    _map += "¢¹";
-                    break;
-                }
+                _map += attackSymbols[dir];
                 GET_SINGLE(InputManager).AttackKeyRelease();
-                break;
+            }
+            else
+            {
+                _map += tileSymbols[static_cast<EMapTileType>(showingMap[y * MAP_WIDTH + x])];
             }
         }
         _map += "\n";
     }
-    _map += "HP    : ";
-    for (int i = 0; i < playerHP; i++) _map += "¢¾ ";
-    for (int i = 0; i < 10 - playerHP; i++) _map += "¢½ ";
-    _map += "\nQuest :";
-    for (int i = 0; i < playerQuestCount; i++) _map += "¢Ý ";
-    _map += "\n";
-    cout << _map;
+
+    _map += GET_SINGLE(EntityManager).GetPlayer()->ShowPlayerStatus();
+    std::cout << _map << std::endl;
+    if (not GET_SINGLE(EntityManager).GetPlayer()->GetAlive())
+    {
+        GET_SINGLE(GameManager).ChangeGameLoopFlag();
+    }
+    if (GET_SINGLE(EntityManager).GetPlayer()->GetQuestCount() == PLAYER_TARGET_QUEST_COUNT)
+    {
+        GET_SINGLE(GameManager).ChangeGameLoopFlag();
+    }
+
 }
 
 void MapManager::Init()

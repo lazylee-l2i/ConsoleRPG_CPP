@@ -1,4 +1,5 @@
 #include "GameManager.h"
+#include <iostream>
 
 void GameManager::PlayerMoveMap()
 {
@@ -20,3 +21,67 @@ void GameManager::PlayerMoveMap()
     }
 }
 
+void GameManager::PlayerCommandMod()
+{
+    system("cls");
+    std::cout << "====== <Player Command Mode> =====" << std::endl;
+    std::cout << "/> ";
+    std::string cmd;
+    std::cin >> cmd;
+    std::vector<string> command = StringTokenizer(cmd);
+    if (command[0] == "exit")
+    {
+        this->CommandFlag = false;
+    }
+    else if (command[0] == "cheat")
+    {
+        GET_SINGLE(EntityManager).RemoveAllByType(EEntityType::MONSTER);
+        GET_SINGLE(EntityManager).RemoveAllByType(EEntityType::ITEM);
+        GET_SINGLE(MapManager).GenerateMap();
+        Pos pos(1, 1);
+        for (int i = 0; i < ((MAP_WIDTH - 2) * 2); i++)
+        {   
+            GET_SINGLE(EntityManager).CreateEntity(EEntityType::ITEM, pos, 2);
+            pos.x += 1;
+            if (pos.x == MAP_WIDTH - 1)
+            {
+                pos.x = 1;
+                pos.y += 1;
+            }
+        }
+    }
+    else if (command[0] == "clearGame")
+    {
+
+    }
+    else if (command[0] == "heal")
+    {
+
+    }
+    else if (command[0] == "killall")
+    {
+
+    }
+    system("cls");
+
+}
+
+std::vector<std::string> StringTokenizer(std::string _cmd)
+{
+    std::vector<std::string> Token;
+    std::string txt = "";
+    for (auto _c : _cmd)
+    {
+        if (txt != " ")
+        {
+            txt += _c;
+        }
+        else
+        {
+            Token.push_back(txt);
+            txt = "";
+        }
+    }
+    Token.push_back(txt);
+    return Token;
+}

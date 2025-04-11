@@ -26,13 +26,14 @@
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Monster.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="StartScreen.cpp" />
     <ClCompile Include="TileCollector.cpp" />
     <ClCompile Include="TimeManager.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="MapManager.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Type.cpp" />
+    <ClCompile Include="Utill.cpp" />
     <ClCompile Include="UpdateManager.cpp" />
     <ClCompile Include="ZeldaCore.cpp" />
     <ClCompile Include="ZeldaRun.cpp" />
@@ -45,9 +46,10 @@
     <ClInclude Include="Item.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="MapManager.h" />
+    <ClInclude Include="StartScreen.h" />
     <ClInclude Include="TileCollector.h" />
     <ClInclude Include="TimeManager.h" />
-    <ClInclude Include="Type.h" />
+    <ClInclude Include="Utill.h" />
     <ClInclude Include="UpdateManager.h" />
     <ClInclude Include="ZeldaCore.h" />
   </ItemGroup>

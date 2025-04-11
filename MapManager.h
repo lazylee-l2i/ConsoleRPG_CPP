@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 
-#include "Type.h"
+#include "Utill.h"
 
 #include "Entity.h"
 #include "EntityManager.h"

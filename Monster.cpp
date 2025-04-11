@@ -43,21 +43,33 @@ void Monster::Interact(Entity* other)
 	if (type == EEntityType::PLAYER)
 	{
 		Player* player = static_cast<Player*>(other);
-		player->ActorRollBack();
+		//player->ActorRollBack();
+		Pos knockBackPos = player->GetPos() + this->GetDirectionByPos();
+		EMapTileType type = GET_SINGLE(MapManager).GetTile(knockBackPos.x, knockBackPos.y);
+		player->SetOnHit(true);
+
+
 		int remainHP = player->GetHP() - this->ActorAttack;
 		remainHP = remainHP <= 0 ? 0 : remainHP;
 		player->SetHP(remainHP);
 		if (remainHP <= 0)
 		{
-			GET_SINGLE(GameManager).ChangeGameLoopFlag();
+			player->SetAlive(false);
 		}
+		if (type != EMapTileType::WALL && type != EMapTileType::EXIT)
+		{
+			player->SetPos(knockBackPos);
+		}
+
 	}
 }
 
 void Monster::Move()
 {
 	this->PostPos = this->pos;
-	switch (GET_SINGLE(InputManager).MonsterInput())
+	EInputType input = GET_SINGLE(InputManager).MonsterInput();
+	this->SetDirection(input);
+	switch (input)
 	{
 	case EInputType::UP:
 		this->pos.y--;

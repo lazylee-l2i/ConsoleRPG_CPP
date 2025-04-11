@@ -90,8 +90,10 @@ void MaxHeart::Update()
 
 void MaxHeart::Interact(Entity* other)
 {
-	if (Player* player = dynamic_cast<Player*>(other))
+	if (Player* player = static_cast<Player*>(other))
 	{
-		player->SetMaxHP(player->GetMaxHP() + 1);
+		int maxHP = player->GetMaxHP();
+		maxHP += 1;
+		player->SetMaxHP(maxHP);
 	}
 }

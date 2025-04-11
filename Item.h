@@ -3,7 +3,7 @@
 
 #include "Entity.h"
 #include "Actor.h"
-#include "Type.h"
+#include "Utill.h"
 using namespace std;
 
 class Entity;
@@ -34,6 +34,7 @@ class Heart : public Item
 {
 public:
 	Heart(Pos SpawnPoint);
+	virtual ~Heart() {};
 
 	virtual void Update() override;
 	virtual void Interact(Entity* other) override;
@@ -43,6 +44,7 @@ class Quest : public Item
 {
 public:
 	Quest(Pos SpawnPoint);
+	virtual ~Quest() {};
 
 	virtual void Update() override;
 	virtual void Interact(Entity* other) override;
@@ -52,6 +54,7 @@ class MaxHeart : public Item
 {
 public:
 	MaxHeart(Pos SpawnPoint);
+	virtual ~MaxHeart() {};
 
 	virtual void Update() override;
 	virtual void Interact(Entity* other) override;

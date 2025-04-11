@@ -28,6 +28,8 @@ EInputType InputManager::PlayerInput()
 	case ' ':
 		AttackKey = true;
 		return EInputType::ATTACKCALL;
+	case 't':
+		return EInputType::COMMAND_MODE;
 	default:
 		return EInputType::UNDEFINE;
 	}

@@ -3,7 +3,7 @@
 
 
 #include "Entity.h"
-#include "Type.h"
+#include "Utill.h"
 
 #include "EntityManager.h"
 using namespace std;
@@ -64,12 +64,14 @@ class Player : public Actor
 private:
 	int QuestCount = 0;
 	Pos AttackPos;
+	bool OnHit = false;
+	bool bAlive = true;
 public:
 	Player(const Pos& pos) : Actor("Player", pos) {
 		this->name = "Player";
 		this->ActorAttack = 5;
 		this->ActorHP = 5;
-		this->MaxHP = 10;
+		this->MaxHP = PLAYER_DEFAULT_MAXHP;
 		this->pos = pos;
 		this->PostPos = Pos(0, 0);
 		this->type = EEntityType::PLAYER;
@@ -88,11 +90,17 @@ public:
 	void Attack(Entity* other);
 	void SetAttackPos(EInputType dir);
 	void SetMaxHP(int n) { this->MaxHP = n; }
+	void SetOnHit(bool flag) { this->OnHit = flag; }
+	void SetAlive(bool flag) { this->bAlive = flag; }
 	void EarnQuestItem() { this->QuestCount += 1; }
 
 	Pos GetAttackPos();
 	int GetMaxHP() { return this->MaxHP; }
 	int GetQuestCount() { return this->QuestCount; }
+	const bool GetOnHit() { return this->OnHit; }
+	const bool GetAlive() { return this->bAlive; }
+
+	string ShowPlayerStatus();
 };
 
 class Monster : public Actor

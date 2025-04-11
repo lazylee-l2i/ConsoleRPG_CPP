@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include "Type.h"
+#include "Utill.h"
 using namespace std;
 
 class Entity

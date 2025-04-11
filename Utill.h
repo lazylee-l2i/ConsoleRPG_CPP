@@ -1,10 +1,24 @@
 #pragma once
+#include <unordered_map>
+#include <mutex>
 
-#define MAP_WIDTH 21
-#define MAP_HEIGHT 11
+#define MAP_HEIGHT 21
+#define MAP_WIDTH 31
 
-#define AUTO_MOB_GEN_PERCENT 1
+
+#define AUTO_MOB_GEN_PERCENT 2
 #define AUTO_OTC_GEN_PERCENT 10
+
+#define PLAYER_SPAWNPOINT_X MAP_WIDTH / 2
+#define PLAYER_SPAWNPOINT_Y MAP_HEIGHT / 2
+
+#define GAME_FPS 10
+#define UPDATE_DURATION_FRAME 10 
+
+#define PLAYER_DEFAULT_MAXHP 10
+#define PLAYER_TARGET_QUEST_COUNT 5
+
+
 
 enum class EMapTileType
 {
@@ -13,9 +27,12 @@ enum class EMapTileType
 	EXIT,
 	ATTACK,
 	PLAYER,
+	PLAYER_GETHIT,
+	PLAYER_DEAD,
 	MONSTER,
 	HEART,
 	QUEST,
+	MAXHEART,
 	UNDEFINE
 };
 
@@ -36,10 +53,9 @@ enum class EInputType
 	RIGHT,
 	QUIT,
 	ATTACKCALL,
-	UNDEFINE
+	UNDEFINE,
+	COMMAND_MODE
 };
-
-
 
 enum class EEntityType
 {
@@ -50,6 +66,31 @@ enum class EEntityType
 	UNDEFINE
 };
 
+static std::unordered_map<EMapTileType, const char*> tileSymbols = {
+	{EMapTileType::ROAD,     "  "},
+	{EMapTileType::WALL,     "¡á"},
+	{EMapTileType::EXIT,     "¢Ë"},
+	{EMapTileType::PLAYER,   "¡Ù"},
+	{EMapTileType::MONSTER,  "¡Þ"},
+	{EMapTileType::HEART,    "¢¾"},
+	{EMapTileType::MAXHEART, "¢½"},
+	{EMapTileType::QUEST,    "¢Ý"},
+	{EMapTileType::PLAYER_GETHIT, "¡Ú"},
+	{EMapTileType::PLAYER_DEAD, "¢Í"}
+};
+
+static std::unordered_map<EItemType, EMapTileType> itemSymbols = {
+	{EItemType::HEART, EMapTileType::HEART},
+	{EItemType::MAXHEART, EMapTileType::MAXHEART},
+	{EItemType::QUEST, EMapTileType::QUEST}
+};
+
+static std::unordered_map<EInputType, const char*> attackSymbols = {
+	{EInputType::UP,"¡â"},
+	{EInputType::DOWN, "¡ä"},
+	{EInputType::LEFT, "¢·"}	,
+	{EInputType::RIGHT,"¢¹"}
+};
 
 
 struct Pos
@@ -70,6 +111,9 @@ bool operator==(const Pos& left, const Pos& right);
 bool operator!=(const Pos& left, const Pos& right);
 
 int GetLengthAboutTwoPoint(const Pos& left, const Pos& right);
+
+
+
 
 #define DECLARE_SINGLE(classname)					\
 private:											\

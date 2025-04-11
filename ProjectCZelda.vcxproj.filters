@@ -72,7 +72,7 @@
     <ClCompile Include="EntityManager.cpp">
       <Filter>소스 파일\02_Manager</Filter>
     </ClCompile>
-    <ClCompile Include="Type.cpp">
+    <ClCompile Include="Utill.cpp">
       <Filter>소스 파일\03_Utill</Filter>
     </ClCompile>
     <ClCompile Include="UpdateManager.cpp">
@@ -82,6 +82,9 @@
       <Filter>소스 파일\02_Manager</Filter>
     </ClCompile>
     <ClCompile Include="TileCollector.cpp">
+      <Filter>소스 파일\03_Utill</Filter>
+    </ClCompile>
+    <ClCompile Include="StartScreen.cpp">
       <Filter>소스 파일\03_Utill</Filter>
     </ClCompile>
   </ItemGroup>
@@ -113,7 +116,7 @@
     <ClInclude Include="TileCollector.h">
       <Filter>소스 파일\03_Utill\Header</Filter>
     </ClInclude>
-    <ClInclude Include="Type.h">
+    <ClInclude Include="Utill.h">
       <Filter>소스 파일\03_Utill\Header</Filter>
     </ClInclude>
     <ClInclude Include="UpdateManager.h">
@@ -121,6 +124,9 @@
     </ClInclude>
     <ClInclude Include="GameManager.h">
       <Filter>소스 파일\02_Manager\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="StartScreen.h">
+      <Filter>소스 파일\03_Utill\Header</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

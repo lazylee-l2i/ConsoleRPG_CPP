@@ -36,6 +36,13 @@ void UpdateManager::UpdateMonsters()
         {
             entity->SetPos(after); // 이동
             entity->Interact(target.get()); // 상호작용
+
+            // 플레이어와 상호작용 했는데 플레이어가 벽에 막혀 움직임이 고정일 경우
+            // 몹 이동 X
+            if (target->GetPos() == entity->GetPos())
+            {
+                target->SetPos(before);
+            }
             continue;
         }
 
@@ -60,7 +67,7 @@ void UpdateManager::UpdatePlayer()
             {
                 player->Attack(iter->get());
                 // 컨테이너가 변하면 iter가 무효화됨 그래서 Attack 내부에서 삭제하는걸로 변경
-                // entities.erase(iter);
+                //entities.erase(iter);
                 break;
             }
         }
@@ -87,36 +94,52 @@ void UpdateManager::UpdatePlayer()
         player->SetPos(before);
         return;
     }
-    // 아이템에 대한 조사
+
+    // 겹치는 Entity 확인 및 상호작용
     for (auto iter = entities.begin(); iter != entities.end();)
     {
         auto& entity = *iter;
 
-        Pos entityPos = iter->get()->GetPos();
+        Pos entityPos = entity->GetPos();
+        EEntityType type = entity->GetType();
+
         if (after != entityPos)
         { 
             ++iter;
             continue;
         }
-
-        EEntityType type = entity->GetType();
-
-        if (type == EEntityType::ITEM)
+        else if (type == EEntityType::ITEM)
         {
-            player->Interact(entity.get());
+            entity->Interact(player.get());
             iter = entities.erase(iter);
             return;
         }
         else if (type == EEntityType::MONSTER)
         {
-            entity->Interact(player.get());
-            player->SetPos(before);
-            ++iter;
+            player->Interact(entity.get());
+            Pos afterPos = player->GetPos();
+            EMapTileType type = GET_SINGLE(MapManager).GetTile(afterPos.x, afterPos.y);
+            if (type != EMapTileType::ROAD)
+            {
+                player->SetPos(before);
+            }
             return;
         }
         ++iter;
         
     }
 
+
+}
+
+
+bool WallCollisionCheck(const Pos& pos)
+{
+    EMapTileType tile = GET_SINGLE(MapManager).GetTile(pos.x, pos.y);
+
+    if (tile == EMapTileType::WALL || tile == EMapTileType::EXIT)
+        return false;
+
+    return true;
 
 }

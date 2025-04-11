@@ -1,8 +1,21 @@
 #include "ZeldaCore.h"
+#include "StartScreen.h"
 
+#include <unordered_map>
+#include <algorithm>
 #include <thread>
 using namespace std;
 
+void Game();
+
+
+int main()
+{
+    //show_start_screen();
+    //
+    Game();
+    return 0;
+}
 
 
 void Init()
@@ -11,19 +24,20 @@ void Init()
     srand(static_cast<unsigned int>(time(0)));
 
     // 엔티티 생성
-    GET_SINGLE(EntityManager).CreateEntity(EEntityType::PLAYER, Pos(2, 2));
+    Pos spawn = Pos(PLAYER_SPAWNPOINT_X, PLAYER_SPAWNPOINT_Y);
+    GET_SINGLE(EntityManager).CreateEntity(EEntityType::PLAYER, spawn);
 
     GET_SINGLE(MapManager).Init();
     GET_SINGLE(GameManager).Init();
 
-    GET_SINGLE(TimeManager).SetFrameTick(20);
+    GET_SINGLE(TimeManager).SetFrameTick(GAME_FPS);
     GET_SINGLE(TimeManager).LoopStart();
 }
 
 
 void Update()
 {
-    if (GET_SINGLE(TimeManager).GetFrameCount() > 10)
+    if (GET_SINGLE(TimeManager).GetFrameCount() > UPDATE_DURATION_FRAME)
     {
         GET_SINGLE(UpdateManager).UpdateMonsters();
         GET_SINGLE(TimeManager).LoopStart();
@@ -56,20 +70,19 @@ void Game()
     Init();
     Render();
 
-
     thread playerthread(PlayerUpdate);
 
     while (GET_SINGLE(GameManager).GetGameLoopFlag())
     {
         Update();
         Render();
-
         Sleep(static_cast<DWORD>(GET_SINGLE(TimeManager).GetFrameTickTime()));
+        
     }
 
     playerthread.join();
     auto player = GET_SINGLE(EntityManager).GetPlayer();
-    if (player->GetQuestCount() >= 10)
+    if (player->GetQuestCount() >= PLAYER_TARGET_QUEST_COUNT)
     {
         cout << "Player Win." << endl;
     }
@@ -83,11 +96,3 @@ void Game()
     }
 }
 
-int main()
-{
-	//srand(static_cast<unsigned int>(GetTickCount64()));
-	//Play();
-    Game();
-    //Debug();
-	return 0;
-}

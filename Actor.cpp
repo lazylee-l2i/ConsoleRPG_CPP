@@ -27,8 +27,7 @@ void Actor::Interact(Entity* other)
 
 Pos Actor::ActorKnockBack(Pos pos)
 {
-	this->PostPos = this->pos;
-	this->pos = this->pos + pos;
+	this->pos = this->pos - this->GetDirectionByPos() - this->GetDirectionByPos();
 	return this->pos;
 }
 

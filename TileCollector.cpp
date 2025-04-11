@@ -6,12 +6,31 @@ const vector<pair<EMapTileType, Pos>> TileCollector::CollectTiles() const
     auto Entities = GET_SINGLE(EntityManager).GetAllEntities();
     for (const auto& entity : Entities)
     {
+        // »èÁ¦µÈ Entity
+        if (entity == nullptr)
+            continue;
         EEntityType Etype = entity->GetType();
         switch (Etype)
         {
             case EEntityType::PLAYER:
             {
-                TileInfo.push_back({ EMapTileType::PLAYER, entity->GetPos() });
+                if (Player* player = static_cast<Player*>(entity.get()))
+                {
+                    if (not player->GetAlive())
+                    {
+                        TileInfo.push_back({ EMapTileType::PLAYER_DEAD, entity->GetPos() });
+                    }
+                    else if (player->GetOnHit())
+                    {
+                        TileInfo.push_back({ EMapTileType::PLAYER_GETHIT, entity->GetPos() });
+                        player->SetOnHit(false);
+                    }
+                    else
+                    {
+                        TileInfo.push_back({ EMapTileType::PLAYER, entity->GetPos() });
+                    }
+                }
+                
 
                 // When Player Attack, Insert Attack Tile
                 if (GET_SINGLE(InputManager).IsAttackKeyPressed())
@@ -31,19 +50,8 @@ const vector<pair<EMapTileType, Pos>> TileCollector::CollectTiles() const
             {
                 Item* item = static_cast<Item*>(entity.get());
                 EItemType Itype = item->GetItemType();
-                switch (Itype)
-                {
-                    case EItemType::HEART:
-                    {
-                        TileInfo.push_back({ EMapTileType::HEART, entity->GetPos() });
-                        break;
-                    }
-                    case EItemType::QUEST:
-                    {
-                        TileInfo.push_back({ EMapTileType::QUEST, entity->GetPos() });
-                        break;
-                    }
-                }
+                TileInfo.push_back({ itemSymbols[Itype], item->GetPos() });
+                
                 break;
             }
             case EEntityType::NPC:

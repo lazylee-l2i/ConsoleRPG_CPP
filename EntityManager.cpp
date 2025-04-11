@@ -2,8 +2,9 @@
 
 // DEBUG
 #include <iostream>
+#include <cassert>
 
-void EntityManager::CreateEntity(EEntityType type, const Pos& pos)
+void EntityManager::CreateEntity(EEntityType type, const Pos& pos, const int _opt)
 {
 	switch (type)
 	{
@@ -22,9 +23,9 @@ void EntityManager::CreateEntity(EEntityType type, const Pos& pos)
 		}
 	case EEntityType::ITEM:
 		{
-			this->RemoveByPos(pos);
-			shared_ptr<Item> item = CreateRandomItem(pos);
-			ActiveEntities.push_back(item);
+			shared_ptr<Item> item = CreateRandomItem(pos, _opt);
+			if (item != nullptr) // Nullptr이면 확률에 의해 아이템 생성이 안된거
+				ActiveEntities.push_back(item);
 			break;
 		}
 	// WIP
@@ -40,21 +41,39 @@ void EntityManager::CreateEntity(EEntityType type, const Pos& pos)
 	}
 }
 
-shared_ptr<Item> EntityManager::CreateRandomItem(const Pos& pos)
+shared_ptr<Item> EntityManager::CreateRandomItem(const Pos& pos, const int _opt)
 {
-	int random = rand() % 100;
 	shared_ptr<Item> item = nullptr;
-	if (random < 50)
-	{
-		item = make_shared<Heart>(pos);
+	if (_opt == 0)
+	{ 
+		int random = rand() % 80;
+		if (random < 50)
+		{
+			item = make_shared<Heart>(pos);
+		}
+		else if (random >= 50 && random < 70)
+		{
+			item = make_shared<Quest>(pos);
+		}
+		else if (random >= 70 && random < 80)
+		{
+			item = make_shared<MaxHeart>(pos);
+		}
 	}
-	else if (random >= 50 && random < 70)
+	else
 	{
-		item = make_shared<Quest>(pos);
-	}
-	else if (random >= 70 && random < 80)
-	{
-		item = make_shared<MaxHeart>(pos);
+		switch (_opt)
+		{
+		case 1:
+			item = make_shared<Heart>(pos);
+			break;
+		case 2:
+			item = make_shared<Quest>(pos);
+			break;
+		case 3:
+			item = make_shared<MaxHeart>(pos);
+			break;
+		}
 	}
 	return item;
 }
@@ -158,28 +177,4 @@ shared_ptr<Entity> EntityManager::FindEntityByPos(const Pos& pos)
 		}
 	}
 	return nullptr;
-}
-
-void EntityManager::DebugPrintEntities()
-{
-	cout << "==== Active Entities ====" << endl;
-	for (const auto& entity : ActiveEntities)
-	{
-		string typeStr;
-
-		switch (entity->GetType())
-		{
-		case EEntityType::PLAYER:   typeStr = "Player";   break;
-		case EEntityType::MONSTER:  typeStr = "Monster";  break;
-		case EEntityType::ITEM:     typeStr = "Item";     break;
-		case EEntityType::NPC:      typeStr = "NPC";      break;
-		default:                    typeStr = "Unknown";  break;
-		}
-
-		Pos pos = entity->GetPos();
-		cout << "[" << typeStr << "] "
-			<< entity->GetName() << " → (" << pos.x << ", " << pos.y << ")" << endl;
-	}
-
-	cout << "=========================" << endl;
 }

@@ -13,7 +13,7 @@
 #include "Entity.h"
 #include "Actor.h"
 #include "Item.h"
-#include "Type.h"
+#include "Utill.h"
 
 #include "EntityManager.h"
 #include "InputManager.h"
@@ -21,5 +21,4 @@
 #include "MapManager.h"
 #include "UpdateManager.h"
 #include "GameManager.h"
-
 

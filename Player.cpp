@@ -11,28 +11,16 @@ void Player::Update()
 void Player::Interact(Entity* other)
 {
 	EEntityType type = other->GetType();
-
-	if (Item* item = static_cast<Item*>(other))
+	if (type == EEntityType::MONSTER)
 	{
-		if (item->GetItemType() == EItemType::HEART)
-		{ 
-			if (this->ActorHP > 10)
-			{
-				this->ActorHP = 10;
-			}
-			this->SetHP(this->ActorHP + 2);
-		}
-		else if (item->GetItemType() == EItemType::QUEST)
+		this->ActorKnockBack();
+		this->ActorHP -= 1;
+		this->SetOnHit(true);
+		if (this->ActorHP == 0)
 		{
-			this->QuestCount += 1;
-			if (this->QuestCount == 10)
-			{ 
-				GET_SINGLE(GameManager).ChangeGameLoopFlag();
-			}
+			GET_SINGLE(GameManager).ChangeGameLoopFlag();
 		}
-		/*GET_SINGLE(EntityManager).RemoveByPos(item->GetPos());*/
 	}
-	// NPC Interact Here
 }
 
 void Player::Move()
@@ -63,6 +51,8 @@ void Player::Move()
 	case EInputType::QUIT:
 		GET_SINGLE(GameManager).ChangeGameLoopFlag();
 		break;
+	case EInputType::COMMAND_MODE:
+		GET_SINGLE(GameManager).ChangeCommandFlag();
 	}
 	
 }
@@ -112,3 +102,31 @@ Pos Player::GetAttackPos()
 {
 	return this->AttackPos;
 }
+
+string Player::ShowPlayerStatus()
+{
+	string status = "";
+
+	status += "HP    : ";
+	for (int i = 0; i < this->ActorHP; i++)
+	{
+		status += "¢¾ ";
+	}
+
+	for (int i = 0; i < this->MaxHP - this->ActorHP; i++)
+	{
+		status += "¢½ ";
+	}
+	status += "\n";
+
+
+	status += "Quest : ";
+	for (int i = 0; i < this->QuestCount; i++)
+	{
+		status += "¢Ý ";
+	}
+	status += "\n";
+
+	return status;
+}
+
