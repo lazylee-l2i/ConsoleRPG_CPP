@@ -10,6 +10,8 @@ Monster::Monster(int idx)
 	this->ActorHP = 5;
 	this->MaxHP = 0;
 	Pos tempPos = GET_SINGLE(InputManager).GetRandomPos();
+
+	// 몬스터 생성자 수행 시 Simple Factory에서 ID를 받아 이름이 중복 안되게 생성
 	while (true)
 	{
 		if (GET_SINGLE(MapManager).GetTile(tempPos.x, tempPos.y) == EMapTileType::WALL)
@@ -43,11 +45,9 @@ void Monster::Interact(Entity* other)
 	if (type == EEntityType::PLAYER)
 	{
 		Player* player = static_cast<Player*>(other);
-		//player->ActorRollBack();
 		Pos knockBackPos = player->GetPos() + this->GetDirectionByPos();
 		EMapTileType type = GET_SINGLE(MapManager).GetTile(knockBackPos.x, knockBackPos.y);
 		player->SetOnHit(true);
-
 
 		int remainHP = player->GetHP() - this->ActorAttack;
 		remainHP = remainHP <= 0 ? 0 : remainHP;

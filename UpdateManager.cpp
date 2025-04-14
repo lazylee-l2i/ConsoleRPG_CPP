@@ -3,6 +3,7 @@
 
 void UpdateManager::UpdateMonsters()
 {
+    // Get All Acitive Entity
     auto& entities = GET_SINGLE(EntityManager).GetAllEntities();
 
     for (auto& entity : entities)
@@ -17,7 +18,6 @@ void UpdateManager::UpdateMonsters()
 
         EMapTileType tile = GET_SINGLE(MapManager).GetTile(after.x, after.y);
         auto target = GET_SINGLE(EntityManager).FindEntityByPos(after);
-
 
         // 벽 또는 출구는 이동 불가 → 롤백
         if (tile == EMapTileType::WALL || tile == EMapTileType::EXIT)
@@ -126,20 +126,5 @@ void UpdateManager::UpdatePlayer()
             return;
         }
         ++iter;
-        
     }
-
-
-}
-
-
-bool WallCollisionCheck(const Pos& pos)
-{
-    EMapTileType tile = GET_SINGLE(MapManager).GetTile(pos.x, pos.y);
-
-    if (tile == EMapTileType::WALL || tile == EMapTileType::EXIT)
-        return false;
-
-    return true;
-
 }

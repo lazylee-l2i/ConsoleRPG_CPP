@@ -1,6 +1,9 @@
 #include "TimeManager.h"
+
 #include <time.h>
 #include <Windows.h>
+#include <chrono>
+#include <random>
 
 void TimeManager::Init()
 {

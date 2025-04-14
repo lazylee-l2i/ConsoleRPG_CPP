@@ -3,17 +3,22 @@
 
 void GameManager::PlayerMoveMap()
 {
+    // Player move map when enter exit
+    // Remove All entity except player
     GET_SINGLE(EntityManager).RemoveAllByType(EEntityType::MONSTER);
     GET_SINGLE(EntityManager).RemoveAllByType(EEntityType::ITEM);
+    
+    // regenerate Map data
     GET_SINGLE(MapManager).Init();
     auto player = static_cast<Player*>(GET_SINGLE(EntityManager).FindEntityByName("Player").get());
 
+    // move player position
     Pos before = player->GetPos() - player->GetDirectionByPos();
     Pos after(MAP_WIDTH - before.x - 1, MAP_HEIGHT - before.y - 1);
     player->SetPos(after);
 
+    // Auto generated monster by Simple Factory
     int MOB_GEN_NUM = static_cast<int>(MAP_WIDTH * MAP_HEIGHT * 0.01 * AUTO_MOB_GEN_PERCENT);
-
     for (int i = 0; i < MOB_GEN_NUM; i++)
     {
         Pos rand = GET_SINGLE(MapManager).GetRandomEmptyPos();
@@ -21,6 +26,7 @@ void GameManager::PlayerMoveMap()
     }
 }
 
+// WIP
 void GameManager::PlayerCommandMod()
 {
     system("cls");

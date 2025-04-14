@@ -53,6 +53,9 @@
     <ClInclude Include="UpdateManager.h" />
     <ClInclude Include="ZeldaCore.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="Config.txt" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>

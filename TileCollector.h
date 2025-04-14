@@ -7,6 +7,8 @@
 #include "EntityManager.h"
 #include "InputManager.h"
 
+
+// Tile Collector => Collecting Each Entities {Pos, TileType} Value 
 class TileCollector
 {
 public:

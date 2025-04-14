@@ -5,12 +5,13 @@
 using namespace std;
 
 
-
+// Calculate 2D pos -> 1D pos
 int MapManager::GetIndex1DPosition(int x, int y)
 {
     return x + y * MAP_WIDTH;
 }
 
+// Calculate Empty Tile & Get Random Pos
 Pos MapManager::GetRandomEmptyPos()
 {
     int n = rand() % (MAP_WIDTH * MAP_HEIGHT - 1);
@@ -62,6 +63,8 @@ void MapManager::ShowMap()
 
     _map += GET_SINGLE(EntityManager).GetPlayer()->ShowPlayerStatus();
     std::cout << _map << std::endl;
+
+    // When Player die. After process for showing screen
     if (not GET_SINGLE(EntityManager).GetPlayer()->GetAlive())
     {
         GET_SINGLE(GameManager).ChangeGameLoopFlag();
@@ -86,6 +89,7 @@ void MapManager::GenerateMap()
     {
         for (int x = 0; x < MAP_WIDTH; ++x)
         {
+            // Make Boundary
             bool isEdge = (x == 0 || x == MAP_WIDTH - 1 || y == 0 || y == MAP_HEIGHT - 1);
             bool isCenter = (x == MAP_WIDTH / 2 || y == MAP_HEIGHT / 2);
 
@@ -113,10 +117,11 @@ EMapTileType MapManager::GetTile(int x, int y)
     return static_cast<EMapTileType>(GeneratedMap[index]);
 }
 
+// Generating Obstacle
 void MapManager::GenObstacle(int percentage)
 {
     int totalCells = MAP_WIDTH * MAP_HEIGHT;
-    int numObstacles = totalCells * AUTO_OTC_GEN_PERCENT / 100;   
+    int numObstacles = totalCells * AUTO_OTC_GEN_PERCENT / 100;
 
     while (numObstacles > 0)
     {

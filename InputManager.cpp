@@ -23,6 +23,8 @@ EInputType InputManager::PlayerInput()
 		return EInputType::LEFT;
 	case 'd':
 		return EInputType::RIGHT;
+
+	// Different from Monster Input
 	case 'q':
 		return EInputType::QUIT;
 	case ' ':

@@ -129,4 +129,9 @@
       <Filter>소스 파일\03_Utill\Header</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="Config.txt">
+      <Filter>소스 파일\03_Utill\Header</Filter>
+    </Text>
+  </ItemGroup>
 </Project>

@@ -4,6 +4,7 @@
 #include "Utill.h"
 using namespace std;
 
+// Parent Class
 class Entity
 {
 protected:
