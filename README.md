@@ -2,6 +2,9 @@
 
 > 🎮 콘솔 기반 C++ RPG 프로젝트
 
+Power Point : https://naver.me/xGFmXztx (PPT) https://naver.me/xHmDH7NB (PDF)  
+Source & Demo : https://naver.me/GEiIWgva
+
 ## 📌 1. 프로젝트 개요
 
 - **언어**: C++14  
